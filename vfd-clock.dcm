@@ -1,3 +1,8 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP IV-22
+D IV-22 Vacuum Fluorescent Display Tube
+K DISPLAY Tube
+$ENDCMP
+#
 #End Doc Library
