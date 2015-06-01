@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source T:/opt/vfd-clock/vfd-clock.sch)
-    (date "5/31/2015 11:46:00 PM")
+    (date "6/1/2015 6:33:47 PM")
     (tool "Eeschema (2014-10-27 BZR 5228)-product"))
   (components
     (comp (ref U1)
@@ -108,6 +108,7 @@
       (tstamp 556B8A83))
     (comp (ref CON2)
       (value BARREL_JACK_2)
+      (footprint VFD:OCT_JACK)
       (libsource (lib vfd-clock) (part BARREL_JACK_2))
       (sheetpath (names /) (tstamps /))
       (tstamp 556B8B4E))
@@ -209,22 +210,6 @@
       (pins
         (pin (num 1) (name A) (type passive))
         (pin (num 2) (name K) (type passive))))
-    (libpart (lib conn) (part CONN_01X06)
-      (footprints
-        (fp Pin_Header_Straight_1X06)
-        (fp Pin_Header_Angled_1X06)
-        (fp Socket_Strip_Straight_1X06)
-        (fp Socket_Strip_Angled_1X06))
-      (fields
-        (field (name Reference) P)
-        (field (name Value) CONN_01X06))
-      (pins
-        (pin (num 1) (name P1) (type passive))
-        (pin (num 2) (name P2) (type passive))
-        (pin (num 3) (name P3) (type passive))
-        (pin (num 4) (name P4) (type passive))
-        (pin (num 5) (name P5) (type passive))
-        (pin (num 6) (name P6) (type passive))))
     (libpart (lib device) (part INDUCTOR)
       (fields
         (field (name Reference) L)
@@ -255,6 +240,37 @@
       (pins
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
+    (libpart (lib conn) (part CONN_01X06)
+      (footprints
+        (fp Pin_Header_Straight_1X06)
+        (fp Pin_Header_Angled_1X06)
+        (fp Socket_Strip_Straight_1X06)
+        (fp Socket_Strip_Angled_1X06))
+      (fields
+        (field (name Reference) P)
+        (field (name Value) CONN_01X06))
+      (pins
+        (pin (num 1) (name P1) (type passive))
+        (pin (num 2) (name P2) (type passive))
+        (pin (num 3) (name P3) (type passive))
+        (pin (num 4) (name P4) (type passive))
+        (pin (num 5) (name P5) (type passive))
+        (pin (num 6) (name P6) (type passive))))
+    (libpart (lib conn) (part MC34063)
+      (description "1.5A step up/down/inverting switching regulator")
+      (docs regulator/mc34063.pdf)
+      (fields
+        (field (name Reference) U)
+        (field (name Value) MC34063))
+      (pins
+        (pin (num 1) (name Sw_Coll) (type input))
+        (pin (num 2) (name Sw_Emit) (type input))
+        (pin (num 3) (name Tim_Cap) (type input))
+        (pin (num 4) (name GND) (type power_in))
+        (pin (num 5) (name V_Sense) (type input))
+        (pin (num 6) (name VCC) (type power_in))
+        (pin (num 7) (name I_Sense) (type input))
+        (pin (num 8) (name Drv_Coll) (type input))))
     (libpart (lib vfd-clock) (part BARREL_JACK_2)
       (fields
         (field (name Reference) CON)
@@ -344,29 +360,14 @@
         (pin (num 37) (name D14/PC13) (type 3state))
         (pin (num 38) (name Vbat) (type power_in))
         (pin (num 39) (name GND) (type power_in))
-        (pin (num 40) (name 3v3) (type power_out))))
-    (libpart (lib conn) (part MC34063)
-      (description "1.5A step up/down/inverting switching regulator")
-      (docs regulator/mc34063.pdf)
-      (fields
-        (field (name Reference) U)
-        (field (name Value) MC34063))
-      (pins
-        (pin (num 1) (name Sw_Coll) (type input))
-        (pin (num 2) (name Sw_Emit) (type input))
-        (pin (num 3) (name Tim_Cap) (type input))
-        (pin (num 4) (name GND) (type power_in))
-        (pin (num 5) (name V_Sense) (type input))
-        (pin (num 6) (name VCC) (type power_in))
-        (pin (num 7) (name I_Sense) (type input))
-        (pin (num 8) (name Drv_Coll) (type input)))))
+        (pin (num 40) (name 3v3) (type power_out)))))
   (libraries
+    (library (logical device)
+      (uri C:\KiCad\share\library\device.lib))
     (library (logical conn)
       (uri C:\KiCad\share\library\conn.lib))
     (library (logical vfd-clock)
-      (uri T:\opt\vfd-clock\vfd-clock.lib))
-    (library (logical device)
-      (uri C:\KiCad\share\library\device.lib)))
+      (uri T:\opt\vfd-clock\vfd-clock.lib)))
   (nets
     (net (code 1) (name /3v3)
       (node (ref U2) (pin 16))
