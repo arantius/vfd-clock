@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name VFD)(type KiCad)(uri ${KIPRJMOD}/vfd-clock.pretty)(options "")(descr ""))
+)

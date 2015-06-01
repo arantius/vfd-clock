@@ -1,5 +1,9 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP BARREL_JACK
+D DC Barrel Jack
+$ENDCMP
+#
 $CMP IV-22
 D IV-22 Vacuum Fluorescent Display Tube
 K DISPLAY Tube
