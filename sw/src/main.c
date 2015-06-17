@@ -11,12 +11,11 @@
 // Define either _INT or _EXT to select low-speed clock source.
 #define CLK_SRC_INT
 
+
 // See: Clock/calendar implementation on the STM32F10xxx microcontroller RTC
 // http://www.st.com/web/en/resource/technical/document/application_note/CD00207941.pdf
 void initRtc() {
-  // Enable the APB1 backup domain and power register
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_BKP|RCC_APB1Periph_PWR, ENABLE);
-  // Disable backup domain write protection.
   PWR_BackupAccessCmd(ENABLE);
 
   #if defined(CLK_SRC_EXT)
@@ -48,6 +47,10 @@ void initRtc() {
   RTC_WaitForLastTask();
   RTC_ExitConfigMode();
 
+  trace_printf("initRtc() counter: %d\n", RTC_GetCounter());
+  RTC_SetCounter(1337);
+  trace_printf("initRtc() counter: %d\n", RTC_GetCounter());
+
   PWR_BackupAccessCmd(DISABLE);
 
   NVIC_InitTypeDef NVIC_InitStructure;
@@ -57,10 +60,14 @@ void initRtc() {
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   NVIC_SetPriority(RTC_IRQn, NVIC_EncodePriority(0, 0, 0));
+  NVIC_EnableIRQ(RTC_IRQn);
 }
 
 
+uint32_t seconds = 0;
+
 void RTC_IRQHandler(void) {
+  seconds++;
   if (RTC_GetFlagStatus(RTC_FLAG_SEC) ) {
     RTC_ClearFlag(RTC_FLAG_SEC);
     trace_puts("RTC Second interrupt!");
@@ -71,12 +78,18 @@ void RTC_IRQHandler(void) {
 
 
 void RCC_IRQHandler(void) {
+  seconds++;
   if (RTC_GetFlagStatus(RTC_FLAG_SEC) ) {
     RTC_ClearFlag(RTC_FLAG_SEC);
     trace_puts("RCC Second interrupt!");
   } else {
     trace_puts("Unknown RCC interrupt!");
   }
+}
+
+
+void SysTick_Handler(void) {
+  trace_printf("Sys tick! RTC Counter: %d\n", RTC_GetCounter());
 }
 
 
@@ -87,9 +100,15 @@ void RCC_IRQHandler(void) {
 int main(int argc, char* argv[]) {
   trace_puts("VfdClock main() init.");
   initRtc();
+  SysTick_Config(15000000);
   trace_puts("VfdClock main() init done.");
+
+  uint32_t lseconds = 0;
   while (1) {
-    (void)0;
+    if (lseconds != seconds) {
+      lseconds = seconds;
+      trace_printf("Second %d\n", seconds);
+    }
   }
 }
 #pragma GCC diagnostic pop
