@@ -12,7 +12,7 @@
 #define CLK_SRC_INT
 
 
-// See: Clock/calendar implementation on the STM32F10xxx microcontroller RTC
+// AN2821: Clock/calendar implementation on the STM32F10xxx microcontroller RTC
 // http://www.st.com/web/en/resource/technical/document/application_note/CD00207941.pdf
 void initRtc() {
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_BKP|RCC_APB1Periph_PWR, ENABLE);
