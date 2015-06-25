@@ -53,6 +53,7 @@ void initRtc() {
 
   // Just for testing ...
   RTC_SetCounter(1337);
+  RTC_WaitForLastTask();
 
   PWR_BackupAccessCmd(DISABLE);
 
