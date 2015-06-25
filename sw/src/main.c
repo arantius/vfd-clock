@@ -27,6 +27,9 @@ void initRtc() {
       }
     }
     RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
+    RTC_WaitForLastTask();
+    RTC_SetPrescaler(32768);  // Watch crystal.
+    RTC_WaitForLastTask();
   #elif defined(CLK_SRC_INT)
     RCC_LSICmd(ENABLE);
     for (uint16_t i = 0; i < 1<<15; i++) {
@@ -36,23 +39,22 @@ void initRtc() {
       }
     }
     RCC_RTCCLKConfig(RCC_RTCCLKSource_LSI);
+    RTC_WaitForLastTask();
+    // RM0041, page 74: "The clock frequency is around 40kHz."
+    RTC_SetPrescaler(40500);
+    RTC_WaitForLastTask();
   #endif
   RCC_RTCCLKCmd(ENABLE);
   RTC_WaitForSynchro();
   RTC_WaitForLastTask();
 
-  // Value: app note 3371 page 9/45 implies 127 * 249 or 124*295 might be
-  // correct (31623, 36580).  Both are too fast.  Value picked by hand for LSI.
-  RTC_SetPrescaler(40500);
+  // Default value: midnight Jan 1, 2015.
+  RTC_SetCounter(1420070400);
   RTC_WaitForLastTask();
 
   RTC_ClearITPendingBit(RTC_IT_SEC);
   RTC_ITConfig(RTC_IT_ALR|RTC_IT_OW, DISABLE);
   RTC_ITConfig(RTC_IT_SEC, ENABLE);
-  RTC_WaitForLastTask();
-
-  // Just for testing ...
-  RTC_SetCounter(1337);
   RTC_WaitForLastTask();
 
   PWR_BackupAccessCmd(DISABLE);
@@ -68,6 +70,13 @@ void initRtc() {
 
 
 void initGpio() {
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+  GPIO_InitTypeDef GPIO_InitStructure = {
+      .GPIO_Pin = GPIO_Pin_8,
+      .GPIO_Mode = GPIO_Mode_IPU,  // Input, pull up.
+      .GPIO_Speed = GPIO_Speed_2MHz,
+  };
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
 void RTC_IRQHandler(void) {
@@ -97,7 +106,16 @@ int main(int argc, char* argv[]) {
   trace_puts("VfdClock main() init done.");
 
   while (1) {
-    //
+    if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8)) {
+      trace_puts("Button down!");
+
+      PWR_BackupAccessCmd(ENABLE);
+      RTC_WaitForLastTask();
+      RTC_SetCounter(1435276229);
+      RTC_WaitForLastTask();
+      PWR_BackupAccessCmd(DISABLE);
+      RTC_WaitForLastTask();
+    }
   }
 }
 #pragma GCC diagnostic pop
