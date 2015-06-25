@@ -41,56 +41,47 @@ void initRtc() {
   RTC_WaitForSynchro();
   RTC_WaitForLastTask();
 
-  RTC_EnterConfigMode();
-  RTC_SetPrescaler(124 * 295);  // Value: app note 3371 page 9/45.
-  RTC_ITConfig(RTC_IT_SEC|RTC_IT_ALR, ENABLE);
+  // Value: app note 3371 page 9/45 implies 127 * 249 or 124*295 might be
+  // correct (31623, 36580).  Both are too fast.  Value picked by hand for LSI.
+  RTC_SetPrescaler(40500);
   RTC_WaitForLastTask();
-  RTC_ExitConfigMode();
 
-  trace_printf("initRtc() counter: %d\n", RTC_GetCounter());
+  RTC_ClearITPendingBit(RTC_IT_SEC);
+  RTC_ITConfig(RTC_IT_ALR|RTC_IT_OW, DISABLE);
+  RTC_ITConfig(RTC_IT_SEC, ENABLE);
+  RTC_WaitForLastTask();
+
+  // Just for testing ...
   RTC_SetCounter(1337);
-  trace_printf("initRtc() counter: %d\n", RTC_GetCounter());
 
   PWR_BackupAccessCmd(DISABLE);
 
-  NVIC_InitTypeDef NVIC_InitStructure;
-  NVIC_InitStructure.NVIC_IRQChannel = RTC_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_InitTypeDef NVIC_InitStructure = {
+    .NVIC_IRQChannel = RTC_IRQn,
+    .NVIC_IRQChannelPreemptionPriority = 1,
+    .NVIC_IRQChannelSubPriority = 0,
+    .NVIC_IRQChannelCmd = ENABLE
+  };
   NVIC_Init(&NVIC_InitStructure);
-  NVIC_SetPriority(RTC_IRQn, NVIC_EncodePriority(0, 0, 0));
-  NVIC_EnableIRQ(RTC_IRQn);
 }
 
 
-uint32_t seconds = 0;
+void initGpio() {
+}
 
 void RTC_IRQHandler(void) {
-  seconds++;
   if (RTC_GetFlagStatus(RTC_FLAG_SEC) ) {
     RTC_ClearFlag(RTC_FLAG_SEC);
-    trace_puts("RTC Second interrupt!");
+    trace_printf("RTC Second interrupt! RTC Counter: %d\n", RTC_GetCounter());
   } else {
     trace_puts("Unknown RTC interrupt!");
   }
 }
 
 
-void RCC_IRQHandler(void) {
-  seconds++;
-  if (RTC_GetFlagStatus(RTC_FLAG_SEC) ) {
-    RTC_ClearFlag(RTC_FLAG_SEC);
-    trace_puts("RCC Second interrupt!");
-  } else {
-    trace_puts("Unknown RCC interrupt!");
-  }
-}
-
-
-void SysTick_Handler(void) {
-  trace_printf("Sys tick! RTC Counter: %d\n", RTC_GetCounter());
-}
+//void SysTick_Handler(void) {
+//  trace_printf("Sys tick! RTC Counter: %d\n", RTC_GetCounter());
+//}
 
 
 #pragma GCC diagnostic push
@@ -99,16 +90,13 @@ void SysTick_Handler(void) {
 #pragma GCC diagnostic ignored "-Wreturn-type"
 int main(int argc, char* argv[]) {
   trace_puts("VfdClock main() init.");
+  initGpio();
   initRtc();
-  SysTick_Config(15000000);
+//  SysTick_Config(15000000);
   trace_puts("VfdClock main() init done.");
 
-  uint32_t lseconds = 0;
   while (1) {
-    if (lseconds != seconds) {
-      lseconds = seconds;
-      trace_printf("Second %d\n", seconds);
-    }
+    //
   }
 }
 #pragma GCC diagnostic pop
