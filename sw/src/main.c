@@ -11,6 +11,12 @@
 // Define either _INT or _EXT to select low-speed clock source.
 #define CLK_SRC_INT
 
+// \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
+
+uint8_t gSecondFlag = 0;
+uint32_t gSeconds = 0;
+
+// \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 // AN2821: Clock/calendar implementation on the STM32F10xxx microcontroller RTC
 // http://www.st.com/web/en/resource/technical/document/application_note/CD00207941.pdf
@@ -79,12 +85,13 @@ void initGpio() {
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
+// \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
+
 void RTC_IRQHandler(void) {
   if (RTC_GetFlagStatus(RTC_FLAG_SEC) ) {
     RTC_ClearFlag(RTC_FLAG_SEC);
-    trace_printf("RTC Second interrupt! RTC Counter: %d\n", RTC_GetCounter());
-  } else {
-    trace_puts("Unknown RTC interrupt!");
+    gSecondFlag = 1;
+    gSeconds = RTC_GetCounter();
   }
 }
 
@@ -93,6 +100,7 @@ void RTC_IRQHandler(void) {
 //  trace_printf("Sys tick! RTC Counter: %d\n", RTC_GetCounter());
 //}
 
+// \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -115,6 +123,11 @@ int main(int argc, char* argv[]) {
       RTC_WaitForLastTask();
       PWR_BackupAccessCmd(DISABLE);
       RTC_WaitForLastTask();
+    }
+
+    if (gSecondFlag) {
+      gSecondFlag = 0;
+      trace_printf("New second: %d\n", gSeconds);
     }
   }
 }
