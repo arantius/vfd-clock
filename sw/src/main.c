@@ -102,11 +102,7 @@ void RTC_IRQHandler(void) {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wmissing-declarations"
-#pragma GCC diagnostic ignored "-Wreturn-type"
-int main(int argc, char* argv[]) {
+int main() {
   trace_puts("VfdClock main() init.");
   initGpio();
   initRtc();
@@ -131,4 +127,3 @@ int main(int argc, char* argv[]) {
     }
   }
 }
-#pragma GCC diagnostic pop
