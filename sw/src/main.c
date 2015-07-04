@@ -51,8 +51,6 @@ void initRtc() {
     }
     RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
     RTC_WaitForLastTask();
-    RTC_SetPrescaler(32768);  // Watch crystal.
-    RTC_WaitForLastTask();
   #elif defined(CLK_SRC_INT)
     RCC_LSICmd(ENABLE);
     for (uint16_t i = 0; i < 1<<15; i++) {
@@ -63,13 +61,20 @@ void initRtc() {
     }
     RCC_RTCCLKConfig(RCC_RTCCLKSource_LSI);
     RTC_WaitForLastTask();
-    // RM0041, page 74: "The clock frequency is around 40kHz."
-    RTC_SetPrescaler(40500);
-    RTC_WaitForLastTask();
   #endif
   RCC_RTCCLKCmd(ENABLE);
   RTC_WaitForSynchro();
   RTC_WaitForLastTask();
+
+  // This must come after WaitForSynchro().
+  #if defined(CLK_SRC_EXT)
+    RTC_SetPrescaler(32768);  // Watch crystal.
+    RTC_WaitForLastTask();
+  #elif defined(CLK_SRC_INT)
+    // RM0041, page 74: "The clock frequency is around 40kHz."
+    RTC_SetPrescaler(40500);
+    RTC_WaitForLastTask();
+  #endif
 
   // Default value: midnight Jan 1, 2015.
   RTC_SetCounter(1420070400);
