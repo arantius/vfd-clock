@@ -151,7 +151,7 @@ void initGpioOutput(GPIO_TypeDef* port, uint16_t pin) {
 
 
 void initGpio() {
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
 
   initGpioInput(GPIOB, GPIO_Pin_8);  // Maple's built in button.
 
