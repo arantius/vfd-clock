@@ -1292,4 +1292,88 @@ Text Label 950  4450 2    60   ~ 0
 GPS_RX
 Text Label 950  4550 2    60   ~ 0
 3v3
+Text Label 8050 1350 0    60   ~ 0
+A1
+Text Label 8050 1450 0    60   ~ 0
+B1
+Text Label 8050 1550 0    60   ~ 0
+C1
+Text Label 8050 1650 0    60   ~ 0
+D1
+Text Label 8050 1750 0    60   ~ 0
+E1
+Text Label 8050 1850 0    60   ~ 0
+F1
+Text Label 8050 1950 0    60   ~ 0
+G1
+Text Label 8050 3250 0    60   ~ 0
+A2
+Text Label 8050 3350 0    60   ~ 0
+B2
+Text Label 8050 3450 0    60   ~ 0
+C2
+Text Label 8050 3550 0    60   ~ 0
+D2
+Text Label 8050 3650 0    60   ~ 0
+E2
+Text Label 8050 3750 0    60   ~ 0
+F2
+Text Label 8050 3850 0    60   ~ 0
+G2
+Text Label 8050 5400 0    60   ~ 0
+A3
+Text Label 8050 5500 0    60   ~ 0
+B3
+Text Label 8050 5600 0    60   ~ 0
+C3
+Text Label 8050 5700 0    60   ~ 0
+D3
+Text Label 8050 5800 0    60   ~ 0
+E3
+Text Label 8050 5900 0    60   ~ 0
+F3
+Text Label 8050 6000 0    60   ~ 0
+G3
+Text Label 11600 1350 0    60   ~ 0
+A4
+Text Label 11600 1450 0    60   ~ 0
+B4
+Text Label 11600 1550 0    60   ~ 0
+C4
+Text Label 11600 1650 0    60   ~ 0
+D4
+Text Label 11600 1750 0    60   ~ 0
+E4
+Text Label 11600 1850 0    60   ~ 0
+F4
+Text Label 11600 1950 0    60   ~ 0
+G4
+Text Label 11600 3350 0    60   ~ 0
+A5
+Text Label 11600 3450 0    60   ~ 0
+B5
+Text Label 11600 3550 0    60   ~ 0
+C5
+Text Label 11600 3650 0    60   ~ 0
+D5
+Text Label 11600 3750 0    60   ~ 0
+E5
+Text Label 11600 3850 0    60   ~ 0
+F5
+Text Label 11600 3950 0    60   ~ 0
+G5
+Text Label 11600 5400 0    60   ~ 0
+A6
+Text Label 11600 5500 0    60   ~ 0
+B6
+Text Label 11600 5600 0    60   ~ 0
+C6
+Text Label 11600 5700 0    60   ~ 0
+D6
+Text Label 11600 5800 0    60   ~ 0
+E6
+Text Label 11600 5900 0    60   ~ 0
+F6
+Text Label 11600 6000 0    60   ~ 0
+G6
 $EndSCHEMATC
