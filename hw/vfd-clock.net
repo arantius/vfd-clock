@@ -1,7 +1,7 @@
 (export (version D)
   (design
-    (source T:\opt\vfd-clock\hw\vfd-clock.sch)
-    (date "7/14/2015 10:47:11 PM")
+    (source T:/opt/vfd-clock/hw/vfd-clock.sch)
+    (date "7/15/2015 5:47:31 PM")
     (tool "Eeschema (2014-10-27 BZR 5228)-product"))
   (components
     (comp (ref V1)
@@ -272,28 +272,6 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 55A5E2F9)))
   (libparts
-    (libpart (lib device) (part SPEAKER)
-      (fields
-        (field (name Reference) SP)
-        (field (name Value) SPEAKER))
-      (pins
-        (pin (num 1) (name 1) (type input))
-        (pin (num 2) (name 2) (type input))))
-    (libpart (lib device) (part SW_PUSH)
-      (description "Push Button")
-      (fields
-        (field (name Reference) SW)
-        (field (name Value) SW_PUSH))
-      (pins
-        (pin (num 1) (name 1) (type passive))
-        (pin (num 2) (name 2) (type passive))))
-    (libpart (lib device) (part INDUCTOR)
-      (fields
-        (field (name Reference) L)
-        (field (name Value) INDUCTOR))
-      (pins
-        (pin (num 1) (name 1) (type passive))
-        (pin (num 2) (name 2) (type passive))))
     (libpart (lib device) (part BATTERY)
       (fields
         (field (name Reference) BT)
@@ -344,6 +322,13 @@
       (pins
         (pin (num 1) (name A) (type passive))
         (pin (num 2) (name K) (type passive))))
+    (libpart (lib device) (part INDUCTOR)
+      (fields
+        (field (name Reference) L)
+        (field (name Value) INDUCTOR))
+      (pins
+        (pin (num 1) (name 1) (type passive))
+        (pin (num 2) (name 2) (type passive))))
     (libpart (lib device) (part PNP)
       (docs transistors/bipolar/*.*)
       (fields
@@ -376,6 +361,21 @@
       (pins
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
+    (libpart (lib device) (part SPEAKER)
+      (fields
+        (field (name Reference) SP)
+        (field (name Value) SPEAKER))
+      (pins
+        (pin (num 1) (name 1) (type input))
+        (pin (num 2) (name 2) (type input))))
+    (libpart (lib device) (part SW_PUSH)
+      (description "Push Button")
+      (fields
+        (field (name Reference) SW)
+        (field (name Value) SW_PUSH))
+      (pins
+        (pin (num 1) (name 1) (type passive))
+        (pin (num 2) (name 2) (type passive))))
     (libpart (lib conn) (part CONN_01X04)
       (footprints
         (fp Pin_Header_Straight_1X04)
@@ -405,6 +405,21 @@
         (pin (num 3) (name P3) (type passive))
         (pin (num 4) (name P4) (type passive))
         (pin (num 5) (name P5) (type passive))))
+    (libpart (lib conn) (part MC34063)
+      (description "1.5A step up/down/inverting switching regulator")
+      (docs regulator/mc34063.pdf)
+      (fields
+        (field (name Reference) U)
+        (field (name Value) MC34063))
+      (pins
+        (pin (num 1) (name Sw_Coll) (type input))
+        (pin (num 2) (name Sw_Emit) (type input))
+        (pin (num 3) (name Tim_Cap) (type input))
+        (pin (num 4) (name GND) (type power_in))
+        (pin (num 5) (name V_Sense) (type input))
+        (pin (num 6) (name VCC) (type power_in))
+        (pin (num 7) (name I_Sense) (type input))
+        (pin (num 8) (name Drv_Coll) (type input))))
     (libpart (lib vfd-clock) (part BARREL_JACK_2)
       (fields
         (field (name Reference) CON)
@@ -515,22 +530,7 @@
         (pin (num 37) (name D14/PC13) (type 3state))
         (pin (num 38) (name Vbat) (type power_in))
         (pin (num 39) (name GND) (type power_in))
-        (pin (num 40) (name 3v3) (type power_out))))
-    (libpart (lib conn) (part MC34063)
-      (description "1.5A step up/down/inverting switching regulator")
-      (docs regulator/mc34063.pdf)
-      (fields
-        (field (name Reference) U)
-        (field (name Value) MC34063))
-      (pins
-        (pin (num 1) (name Sw_Coll) (type input))
-        (pin (num 2) (name Sw_Emit) (type input))
-        (pin (num 3) (name Tim_Cap) (type input))
-        (pin (num 4) (name GND) (type power_in))
-        (pin (num 5) (name V_Sense) (type input))
-        (pin (num 6) (name VCC) (type power_in))
-        (pin (num 7) (name I_Sense) (type input))
-        (pin (num 8) (name Drv_Coll) (type input)))))
+        (pin (num 40) (name 3v3) (type power_out)))))
   (libraries
     (library (logical device)
       (uri C:\KiCad\share\library\device.lib))

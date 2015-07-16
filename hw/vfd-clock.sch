@@ -1235,8 +1235,6 @@ Wire Wire Line
 	5600 2800 5500 2800
 Text Label 5500 2800 2    60   ~ 0
 GRIDH
-Text Notes 5650 2500 0    60   ~ 0
-Transistor boosts the 4504's\ncurrent sinking capacity.
 $Comp
 L R R4
 U 1 1 55A5C5E1
