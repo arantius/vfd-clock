@@ -136,10 +136,8 @@ Text Label 9350 1700 0    60   ~ 0
 GRID
 Text Label 12900 1700 0    60   ~ 0
 GRID
-NoConn ~ 12900 2000
 Text Label 9350 3600 0    60   ~ 0
 GRID
-NoConn ~ 9350 3900
 NoConn ~ 9350 2000
 Text Label 12900 3700 0    60   ~ 0
 GRID
@@ -725,7 +723,6 @@ GND
 NoConn ~ 5600 7750
 Text Label 1450 3000 0    60   ~ 0
 BTN_DIM
-NoConn ~ 2100 3600
 Text Label 2000 4300 2    60   ~ 0
 BTN_DIM
 NoConn ~ 5100 5000
@@ -1217,8 +1214,6 @@ Wire Wire Line
 	5100 3400 5250 3400
 Text Label 5250 3400 0    60   ~ 0
 BUZ
-NoConn ~ 5900 1700
-NoConn ~ 4700 1700
 Wire Wire Line
 	4700 1600 4600 1600
 Text Label 4600 1600 2    60   ~ 0
@@ -1376,4 +1371,20 @@ Text Label 11600 5900 0    60   ~ 0
 F6
 Text Label 11600 6000 0    60   ~ 0
 G6
+Text Label 9350 3900 0    60   ~ 0
+DPH
+Text Label 12900 2000 0    60   ~ 0
+DPH
+Wire Wire Line
+	4700 1700 4600 1700
+Text Label 4600 1700 2    60   ~ 0
+DPL
+Wire Wire Line
+	6000 1700 5900 1700
+Text Label 6000 1700 0    60   ~ 0
+DPH
+Wire Wire Line
+	2100 3600 2000 3600
+Text Label 2000 3600 2    60   ~ 0
+DPL
 $EndSCHEMATC
