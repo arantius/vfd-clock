@@ -1163,7 +1163,7 @@ F 1 "PNP" H 6300 2950 60  0000 R CNN
 F 2 "VFD:MMBT4403L" H 6300 2800 60  0001 C CNN
 F 3 "http://www.onsemi.com/pub_link/Collateral/MMBT4403LT1-D.PDF" H 6300 2800 60  0001 C CNN
 	1    6300 2800
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 Wire Wire Line
 	6500 2600 6400 2600
@@ -1187,7 +1187,7 @@ F 1 "PNP" H 4250 2550 60  0000 R CNN
 F 2 "VFD:MMBT4403L" H 4250 2400 60  0001 C CNN
 F 3 "http://www.onsemi.com/pub_link/Collateral/MMBT4403LT1-D.PDF" H 4250 2400 60  0001 C CNN
 	1    4250 2400
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 Wire Wire Line
 	4500 2600 4350 2600
