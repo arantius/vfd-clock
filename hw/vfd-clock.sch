@@ -149,22 +149,22 @@ Text Label 9350 5750 0    60   ~ 0
 GRID
 NoConn ~ 9350 6050
 Entry Wire Line
+	1450 3700 1550 3600
+Entry Wire Line
 	1450 3800 1550 3700
 Entry Wire Line
 	1450 3900 1550 3800
 Entry Wire Line
 	1450 4000 1550 3900
 Entry Wire Line
-	1450 4100 1550 4000
-Entry Wire Line
-	1450 3800 1550 3700
+	1450 3700 1550 3600
+Text Label 2000 3600 2    60   ~ 0
+DDL
 Text Label 2000 3700 2    60   ~ 0
 DCL
 Text Label 2000 3800 2    60   ~ 0
 DBL
 Text Label 2000 3900 2    60   ~ 0
-DDL
-Text Label 2000 4000 2    60   ~ 0
 DAL
 NoConn ~ 5100 4800
 Text Label 5200 4700 0    60   ~ 0
@@ -751,7 +751,7 @@ Wire Wire Line
 Wire Wire Line
 	5100 4000 5200 4000
 Wire Bus Line
-	1450 3800 1450 4200
+	1450 3700 1450 4100
 Wire Wire Line
 	5200 4700 5100 4700
 Wire Wire Line
@@ -884,20 +884,20 @@ Wire Wire Line
 Wire Wire Line
 	2100 4500 2000 4500
 Wire Wire Line
-	1550 3700 2100 3700
+	1550 3600 2100 3600
 Wire Wire Line
-	2100 3800 1550 3800
+	2100 3700 1550 3700
+Wire Wire Line
+	1550 3800 2100 3800
 Wire Wire Line
 	1550 3900 2100 3900
-Wire Wire Line
-	1550 4000 2100 4000
 $Comp
 L CD4504 U9
 U 1 1 55A46552
 P 2950 1450
 F 0 "U9" H 3300 850 60  0000 C CNN
 F 1 "CD4504" V 2950 1450 60  0000 C CNN
-F 2 "Housings_SOIC:SOIC-16_3.9x9.9mm_Pitch1.27mm" H 2950 1450 60  0001 C CNN
+F 2 "VFD:TSSOP-16_4.4x5mm_Pitch0.65mm" H 2950 1450 60  0001 C CNN
 F 3 "" H 2950 1450 60  0000 C CNN
 	1    2950 1450
 	1    0    0    -1  
@@ -910,7 +910,7 @@ U 1 1 55A46C5F
 P 5300 1450
 F 0 "U10" H 5650 850 60  0000 C CNN
 F 1 "CD4504" V 5300 1450 60  0000 C CNN
-F 2 "Housings_SOIC:SOIC-16_3.9x9.9mm_Pitch1.27mm" H 5300 1450 60  0001 C CNN
+F 2 "VFD:TSSOP-16_4.4x5mm_Pitch0.65mm" H 5300 1450 60  0001 C CNN
 F 3 "" H 5300 1450 60  0000 C CNN
 	1    5300 1450
 	1    0    0    -1  
@@ -980,34 +980,34 @@ Text Label 5200 850  1    60   ~ 0
 Text Label 5400 850  1    60   ~ 0
 19v5
 Wire Wire Line
-	4700 1200 4600 1200
+	4700 1400 4600 1400
+Wire Wire Line
+	4700 1600 4600 1600
 Wire Wire Line
 	4700 1300 4600 1300
 Wire Wire Line
-	4700 1400 4600 1400
-Wire Wire Line
 	4700 1500 4600 1500
-Text Label 4600 1200 2    60   ~ 0
-DDL
-Text Label 4600 1300 2    60   ~ 0
-DBL
 Text Label 4600 1400 2    60   ~ 0
+DDL
+Text Label 4600 1600 2    60   ~ 0
+DBL
+Text Label 4600 1300 2    60   ~ 0
 DCL
 Text Label 4600 1500 2    60   ~ 0
 DAL
 Wire Wire Line
-	5900 1200 6000 1200
+	5900 1400 6000 1400
+Wire Wire Line
+	5900 1600 6000 1600
 Wire Wire Line
 	5900 1300 6000 1300
 Wire Wire Line
-	5900 1400 6000 1400
-Wire Wire Line
 	5900 1500 6000 1500
-Text Label 6000 1200 0    60   ~ 0
-DDH
-Text Label 6000 1300 0    60   ~ 0
-DBH
 Text Label 6000 1400 0    60   ~ 0
+DDH
+Text Label 6000 1600 0    60   ~ 0
+DBH
+Text Label 6000 1300 0    60   ~ 0
 DCH
 Text Label 6000 1500 0    60   ~ 0
 DAH
@@ -1215,12 +1215,12 @@ Wire Wire Line
 Text Label 5250 3400 0    60   ~ 0
 BUZ
 Wire Wire Line
-	4700 1600 4600 1600
-Text Label 4600 1600 2    60   ~ 0
+	4700 1700 4600 1700
+Text Label 4600 1700 2    60   ~ 0
 GRIDL
 Wire Wire Line
-	5900 1600 6000 1600
-Text Label 6000 1600 0    60   ~ 0
+	5900 1700 6000 1700
+Text Label 6000 1700 0    60   ~ 0
 GRIDH
 Wire Wire Line
 	5250 3300 5100 3300
@@ -1376,15 +1376,15 @@ DPH
 Text Label 12900 2000 0    60   ~ 0
 DPH
 Wire Wire Line
-	4700 1700 4600 1700
-Text Label 4600 1700 2    60   ~ 0
+	4700 1200 4600 1200
+Text Label 4600 1200 2    60   ~ 0
 DPL
 Wire Wire Line
-	6000 1700 5900 1700
-Text Label 6000 1700 0    60   ~ 0
+	6000 1200 5900 1200
+Text Label 6000 1200 0    60   ~ 0
 DPH
 Wire Wire Line
-	2100 3600 2000 3600
-Text Label 2000 3600 2    60   ~ 0
+	2100 4000 2000 4000
+Text Label 2000 4000 2    60   ~ 0
 DPL
 $EndSCHEMATC
