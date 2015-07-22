@@ -5,7 +5,7 @@
     (no_connects 4)
     (area 25.349999 25.349999 175.450001 75.450001)
     (thickness 1.6)
-    (drawings 11)
+    (drawings 12)
     (tracks 1067)
     (zones 0)
     (modules 47)
@@ -2217,6 +2217,9 @@
     )
   )
 
+  (gr_text https://github.com/arantius/vfd-clock (at 55.118 48.8315) (layer B.SilkS)
+    (effects (font (size 1.5 1.5) (thickness 0.3)) (justify mirror))
+  )
   (gr_text DIM (at 88.4555 69.342) (layer F.SilkS)
     (effects (font (size 1.27 1.27) (thickness 0.15)))
   )
