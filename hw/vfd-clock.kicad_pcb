@@ -33,7 +33,7 @@
     (46 B.CrtYd user)
     (47 F.CrtYd user)
     (48 B.Fab user)
-    (49 F.Fab user hide)
+    (49 F.Fab user)
   )
 
   (setup
@@ -2235,10 +2235,10 @@
   (gr_text "SWDIO\nGND\nSWCLK\n3v3\nRST" (at 85.598 65.405) (layer B.SilkS)
     (effects (font (size 1.651 1.397) (thickness 0.254)) (justify right mirror))
   )
-  (gr_text ИB-22 (at 151.13 54.864) (layer F.SilkS)
+  (gr_text ИB-22 (at 151.1935 54.1655) (layer F.SilkS)
     (effects (font (size 2.4892 2.4892) (thickness 0.3175)))
   )
-  (gr_text "Люминесцентная\n  Часы" (at 147.574 59.436) (layer F.SilkS)
+  (gr_text "Люминесцентная\n  Часы" (at 147.574 58.6105) (layer F.SilkS)
     (effects (font (size 1.905 1.905) (thickness 0.254)) (justify left))
   )
   (gr_line (start 25.4 75.4) (end 25.4 25.4) (angle 90) (layer Edge.Cuts) (width 0.1))
