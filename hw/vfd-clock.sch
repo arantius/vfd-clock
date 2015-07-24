@@ -337,7 +337,6 @@ Text Label 10500 1900 2    60   ~ 0
 STROBE4H
 Text Label 10500 2000 2    60   ~ 0
 GND
-NoConn ~ 2100 5100
 $Comp
 L PWR_FLAG #FLG01
 U 1 1 556BACD7
@@ -1387,4 +1386,6 @@ Wire Wire Line
 	2100 4000 2000 4000
 Text Label 2000 4000 2    60   ~ 0
 DPL
+NoConn ~ 2100 3400
+NoConn ~ 2100 4100
 $EndSCHEMATC
