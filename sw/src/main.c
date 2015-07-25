@@ -238,7 +238,7 @@ void strobeWait() {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
-int main() {
+int RTCmain() {
   trace_puts(">>> VfdClock main() init");
   initGpio();
   initRtc();
@@ -275,5 +275,63 @@ int main() {
       strobeWait();
       setStrobeLines(0);
     }
+  }
+}
+
+
+int main(void) {
+  // TIM3 clock enable
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+
+  // GPIOA and GPIOB clock enable
+  RCC_APB2PeriphClockCmd(
+      RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_AFIO,
+      ENABLE);
+
+  GPIO_InitTypeDef GPIO_InitStructure;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+
+  // GPIOA Configuration: TIM3 Channel 2 is PA7/D4.
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  // GPIOB Configuration: Button on PB8.
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  // Time base configuration; 72MHz system clock / 1800 / 80 = 500Hz
+  TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+  TIM_TimeBaseStructure.TIM_Period = 80;
+  TIM_TimeBaseStructure.TIM_Prescaler = 1800;
+  TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+  TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+
+  TIM_OCInitTypeDef  TIM_OCInitStructure;
+  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+
+  int p = 40;
+  // PWM1 Mode configuration: Channel2
+  TIM_OCInitStructure.TIM_Pulse = p;  // 40 of period 80 = 50% duty
+  TIM_OC2Init(TIM3, &TIM_OCInitStructure);
+  TIM_OC2PreloadConfig(TIM3, TIM_OCPreload_Enable);
+  trace_printf("Init; pulse %d\n", p);
+
+  // TIM3 enable counter
+  TIM_ARRPreloadConfig(TIM3, ENABLE);  // ARR = Auto Reload Register
+  TIM_Cmd(TIM3, ENABLE);
+
+  while (1) {
+    while (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8)) { }
+    while (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8)) { }
+    p %= 80;
+    p += 10;
+    trace_printf("Button press; pulse %d\n", p);
+    TIM_OCInitStructure.TIM_Pulse = p;
+    TIM_OC2Init(TIM3, &TIM_OCInitStructure);
   }
 }
