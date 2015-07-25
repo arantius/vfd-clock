@@ -1202,7 +1202,6 @@ Wire Wire Line
 	4500 2800 4400 2800
 Text Label 4400 2800 2    60   ~ 0
 GND
-NoConn ~ 2100 3300
 Wire Wire Line
 	6400 3000 6500 3000
 Text Label 6500 3000 0    60   ~ 0
@@ -1210,8 +1209,8 @@ GRID
 Text Label 6500 2600 0    60   ~ 0
 19v5
 Wire Wire Line
-	5100 3400 5250 3400
-Text Label 5250 3400 0    60   ~ 0
+	2100 3300 1950 3300
+Text Label 1950 3300 2    60   ~ 0
 BUZ
 Wire Wire Line
 	4700 1700 4600 1700
@@ -1388,4 +1387,5 @@ Text Label 2000 4000 2    60   ~ 0
 DPL
 NoConn ~ 2100 3400
 NoConn ~ 2100 4100
+NoConn ~ 5100 3400
 $EndSCHEMATC
