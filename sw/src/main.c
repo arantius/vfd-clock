@@ -31,35 +31,43 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 #define BTN_DIM_PORT GPIOB
-#define BTN_DIM_PIN GPIO_Pin_4
+#define BTN_DIM_PIN GPIO_Pin_10
 #define BTN_SET_PORT GPIOB
-#define BTN_SET_PIN GPIO_Pin_5
+#define BTN_SET_PIN GPIO_Pin_12
 #define BTN_UP_PORT GPIOB
-#define BTN_UP_PIN GPIO_Pin_6
+#define BTN_UP_PIN GPIO_Pin_13
 #define BTN_DN_PORT GPIOB
-#define BTN_DN_PIN GPIO_Pin_6
+#define BTN_DN_PIN GPIO_Pin_11
 
-#define DA_PORT GPIOA
-#define DA_PIN GPIO_Pin_5
-#define DB_PORT GPIOA
-#define DB_PIN GPIO_Pin_3
-#define DC_PORT GPIOA
-#define DC_PIN GPIO_Pin_2
-#define DD_PORT GPIOA
-#define DD_PIN GPIO_Pin_4
+#define DA_PORT GPIOB
+#define DA_PIN GPIO_Pin_6
+#define DB_PORT GPIOB
+#define DB_PIN GPIO_Pin_5
+#define DC_PORT GPIOB
+#define DC_PIN GPIO_Pin_4
+#define DD_PORT GPIOB
+#define DD_PIN GPIO_Pin_3
+
+#define DP_PORT GPIOB  // Decimal point.
+#define DP_PIN GPIO_Pin_7
 
 #define STROBE1_PORT GPIOA
-#define STROBE1_PIN GPIO_Pin_0
+#define STROBE1_PIN GPIO_Pin_2
 #define STROBE2_PORT GPIOA
-#define STROBE2_PIN GPIO_Pin_1
+#define STROBE2_PIN GPIO_Pin_3
 #define STROBE3_PORT GPIOA
-#define STROBE3_PIN GPIO_Pin_6
+#define STROBE3_PIN GPIO_Pin_4
 #define STROBE4_PORT GPIOA
-#define STROBE4_PIN GPIO_Pin_7
-#define STROBE5_PORT GPIOB
-#define STROBE5_PIN GPIO_Pin_10
-#define STROBE6_PORT GPIOB
-#define STROBE6_PIN GPIO_Pin_11
+#define STROBE4_PIN GPIO_Pin_5
+#define STROBE5_PORT GPIOA
+#define STROBE5_PIN GPIO_Pin_6
+#define STROBE6_PORT GPIOA
+#define STROBE6_PIN GPIO_Pin_7
+
+#define GRID_PORT GPIOA
+#define GRID_PIN GPIO_Pin_0
+#define BUZ_PORT GPIOB
+#define BUZ_PIN GPIO_Pin_0
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
@@ -67,6 +75,32 @@ uint8_t gSecondFlag = 0;
 uint32_t gSeconds = 0;
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
+
+void initGpio() {
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
+
+  GPIO_InitTypeDef GPIO_InitStructure;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
+
+  // Port A, output.
+  GPIO_InitStructure.GPIO_Pin = GRID_PIN
+      | STROBE1_PIN | STROBE2_PIN | STROBE3_PIN
+      | STROBE4_PIN | STROBE5_PIN | STROBE6_PIN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  // Push-pull output.
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  // Port B, input.
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 // Maple's built in button.
+      | BTN_DIM_PIN | BTN_SET_PIN | BTN_UP_PIN | BTN_DN_PIN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;  // Input, pull up.
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+  // Port B, output.
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 // Maple's built in LED.
+      | BUZ_PIN | DA_PIN | DB_PIN | DC_PIN | DD_PIN | DP_PIN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  // Input, pull up.
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
+}
+
 
 // AN2821: Clock/calendar implementation on the STM32F10xxx microcontroller RTC
 // http://www.st.com/web/en/resource/technical/document/application_note/CD00207941.pdf
@@ -127,52 +161,6 @@ void initRtc() {
     .NVIC_IRQChannelCmd = ENABLE
   };
   NVIC_Init(&NVIC_InitStructure);
-}
-
-
-void initGpioInput(GPIO_TypeDef* port, uint16_t pin) {
-  GPIO_InitTypeDef GPIO_InitStructure = {
-      .GPIO_Pin = pin,
-      .GPIO_Mode = GPIO_Mode_IPU,  // Input, pull up.
-      .GPIO_Speed = GPIO_Speed_2MHz,
-  };
-  GPIO_Init(port, &GPIO_InitStructure);
-}
-
-
-void initGpioOutput(GPIO_TypeDef* port, uint16_t pin) {
-  GPIO_InitTypeDef GPIO_InitStructure = {
-      .GPIO_Pin = pin,
-      .GPIO_Mode = GPIO_Mode_Out_PP,
-      .GPIO_Speed = GPIO_Speed_2MHz,
-  };
-  GPIO_Init(port, &GPIO_InitStructure);
-}
-
-
-void initGpio() {
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
-
-  initGpioInput(GPIOB, GPIO_Pin_8);  // Maple's built in button.
-
-  initGpioInput(BTN_DIM_PORT, BTN_DIM_PIN);
-  initGpioInput(BTN_SET_PORT, BTN_SET_PIN);
-  initGpioInput(BTN_UP_PORT, BTN_UP_PIN);
-  initGpioInput(BTN_DN_PORT, BTN_DN_PIN);
-
-  initGpioOutput(GPIOB, GPIO_Pin_1);  // Maples built in LED.
-
-  initGpioOutput(DA_PORT, DA_PIN);
-  initGpioOutput(DB_PORT, DB_PIN);
-  initGpioOutput(DC_PORT, DC_PIN);
-  initGpioOutput(DD_PORT, DD_PIN);
-
-  initGpioOutput(STROBE1_PORT, STROBE1_PIN);
-  initGpioOutput(STROBE2_PORT, STROBE2_PIN);
-  initGpioOutput(STROBE3_PORT, STROBE3_PIN);
-  initGpioOutput(STROBE4_PORT, STROBE4_PIN);
-  initGpioOutput(STROBE5_PORT, STROBE5_PIN);
-  initGpioOutput(STROBE6_PORT, STROBE6_PIN);
 }
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
