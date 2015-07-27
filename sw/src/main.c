@@ -30,6 +30,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
+// Maple's built in LED.
+#define LED_PORT GPIOB
+#define LED_PIN GPIO_Pin_1
+// Maple's built in button.
+#define BTN_PORT GPIOB
+#define BTN_PIN GPIO_Pin_8
+
 #define BTN_DIM_PORT GPIOB
 #define BTN_DIM_PIN GPIO_Pin_10
 #define BTN_SET_PORT GPIOB
@@ -89,12 +96,12 @@ void initGpio() {
   GPIO_Init(GPIOA, &GPIO_InitStructure);
 
   // Port B, input.
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8 // Maple's built in button.
+  GPIO_InitStructure.GPIO_Pin = BTN_PIN // Maple's built in button.
       | BTN_DIM_PIN | BTN_SET_PIN | BTN_UP_PIN | BTN_DN_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;  // Input, pull up.
   GPIO_Init(GPIOB, &GPIO_InitStructure);
   // Port B, output.
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 // Maple's built in LED.
+  GPIO_InitStructure.GPIO_Pin = LED_PIN // Maple's built in LED.
       | DA_PIN | DB_PIN | DC_PIN | DD_PIN | DP_PIN;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  // Input, pull up.
   GPIO_Init(GPIOB, &GPIO_InitStructure);
@@ -304,7 +311,7 @@ int main() {
       trace_printf("New second: %d\n", gSeconds);
 
       // Blink the LED just to prove I've got my GPIO correct.
-      GPIO_WriteBit(GPIOB, GPIO_Pin_1, gSeconds & 1);
+      GPIO_WriteBit(LED_PORT, LED_PIN, gSeconds & 1);
 
       setDataLines(gSeconds & 0x0f);
       setStrobeLines(1);
