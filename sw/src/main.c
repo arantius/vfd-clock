@@ -258,12 +258,12 @@ void setStrobeLines(uint8_t strobeOn) {
 
 /** Busy loop a delay for the CD4056B while strobe is high. */
 void strobeWait() {
-  // Chip wants strobe high for 35-220 ns, depending on Vdd, which we're
-  // only driving at 3v3, which is in fact lower than the 5v that the 220
-  // max quotes.  Be generous, wait 500ns.
-  // System clock is 72MHz, or 13.89ns per cycle, so loop for 36 cycles (TODO:
-  // how many machine cycles does this really take??) to get 500ns delay.
-  int n = 36;
+  // Chip wants strobe high for 35-220 ns, depending on Vdd.  More time
+  // when driven at lower voltages.  At 15v, max is 70ns, and we're above 15.
+  // Let's be generous, wait 100ns.
+  // System clock is 72MHz, or 13.89ns per cycle, so loop for 8 cycles (TODO:
+  // how many machine cycles does this really take??) to get ~100ns delay.
+  int n = 8;
   asm volatile(
       " mov r0, %[n] \n\t"
       "1: subs r0, #1 \n\t"
