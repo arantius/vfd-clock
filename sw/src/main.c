@@ -227,11 +227,6 @@ void RTC_IRQHandler(void) {
   }
 }
 
-
-//void SysTick_Handler(void) {
-//  trace_printf("Sys tick! RTC Counter: %d\n", RTC_GetCounter());
-//}
-
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 /**
@@ -285,7 +280,6 @@ int main() {
   initGpio();
   initRtc();
   initTimer();
-//  SysTick_Config(15000000);
   trace_puts("<<< VfdClock main() init");
 
   setDataLines(0xf);
