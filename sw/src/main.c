@@ -59,18 +59,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DP_PORT GPIOB  // Decimal point.
 #define DP_PIN GPIO_Pin_7
 
-#define STROBE1_PORT GPIOA
+#define STROBE_PORT GPIOA
 #define STROBE1_PIN GPIO_Pin_2
-#define STROBE2_PORT GPIOA
 #define STROBE2_PIN GPIO_Pin_3
-#define STROBE3_PORT GPIOA
 #define STROBE3_PIN GPIO_Pin_4
-#define STROBE4_PORT GPIOA
 #define STROBE4_PIN GPIO_Pin_5
-#define STROBE5_PORT GPIOA
 #define STROBE5_PIN GPIO_Pin_6
-#define STROBE6_PORT GPIOA
 #define STROBE6_PIN GPIO_Pin_7
+#define STROBE_ALL_PINS ( \
+    STROBE1_PIN | STROBE2_PIN | STROBE3_PIN \
+    | STROBE4_PIN | STROBE5_PIN | STROBE6_PIN)
 
 #define GRID_PORT GPIOA
 #define GRID_PIN GPIO_Pin_0
@@ -81,6 +79,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 uint8_t gSecondFlag = 0;
 time_t gSeconds = 0;
+
+const uint16_t gStrobePins[6] = {
+    STROBE1_PIN, STROBE2_PIN, STROBE3_PIN,
+    STROBE4_PIN, STROBE5_PIN, STROBE6_PIN};
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
@@ -247,13 +249,10 @@ void setDataLines(uint8_t val) {
 
 /** Turn exactly zero or one strobe lines on. */
 void setStrobeLines(uint8_t strobeOn) {
-  // TODO: Just two writes (to port A and B) for all values at once?
-  GPIO_WriteBit(STROBE1_PORT, STROBE1_PIN, strobeOn==1 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(STROBE2_PORT, STROBE2_PIN, strobeOn==2 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(STROBE3_PORT, STROBE3_PIN, strobeOn==3 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(STROBE4_PORT, STROBE4_PIN, strobeOn==4 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(STROBE5_PORT, STROBE5_PIN, strobeOn==5 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(STROBE6_PORT, STROBE6_PIN, strobeOn==6 ? Bit_SET : Bit_RESET);
+  GPIO_ResetBits(STROBE_PORT, STROBE_ALL_PINS);
+  if (strobeOn) {
+    GPIO_SetBits(STROBE_PORT, gStrobePins[strobeOn]);
+  }
 }
 
 
