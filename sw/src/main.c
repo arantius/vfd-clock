@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "diag/Trace.h"
 #include "misc.h"
@@ -79,7 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 uint8_t gSecondFlag = 0;
-uint32_t gSeconds = 0;
+time_t gSeconds = 0;
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
@@ -276,6 +277,8 @@ void strobeWait() {
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 int main() {
+  struct tm *t;
+
   trace_puts(">>> VfdClock main() init");
   initGpio();
   initRtc();
@@ -302,14 +305,22 @@ int main() {
 
     if (gSecondFlag) {
       gSecondFlag = 0;
-      trace_printf("New second: %d\n", gSeconds);
 
       // Blink the LED just to prove I've got my GPIO correct.
       GPIO_WriteBit(LED_PORT, LED_PIN, gSeconds & 1);
 
-      setDataLines(gSeconds & 0x0f);
-      setStrobeLines(1);
-      strobeWait();
+      t = gmtime(&gSeconds);
+      trace_printf(
+          "New second: %d %02d:%02d:%02d\n",
+          gSeconds, t->tm_hour, t->tm_min, t->tm_sec);
+
+      setStrobeLines(0); strobeWait();
+      setDataLines(t->tm_hour / 10); setStrobeLines(1); strobeWait();
+      setDataLines(t->tm_hour % 10); setStrobeLines(2); strobeWait();
+      setDataLines(t->tm_min / 10);  setStrobeLines(3); strobeWait();
+      setDataLines(t->tm_min % 10);  setStrobeLines(4); strobeWait();
+      setDataLines(t->tm_sec / 10);  setStrobeLines(5); strobeWait();
+      setDataLines(t->tm_sec % 10);  setStrobeLines(6); strobeWait();
       setStrobeLines(0);
     }
   }
