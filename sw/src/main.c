@@ -47,13 +47,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define BTN_DN_PORT GPIOB
 #define BTN_DN_PIN GPIO_Pin_11
 
-#define DA_PORT GPIOB
+#define DATA_PORT GPIOB
 #define DA_PIN GPIO_Pin_6
-#define DB_PORT GPIOB
 #define DB_PIN GPIO_Pin_5
-#define DC_PORT GPIOB
 #define DC_PIN GPIO_Pin_4
-#define DD_PORT GPIOB
 #define DD_PIN GPIO_Pin_3
 
 #define DP_PORT GPIOB  // Decimal point.
@@ -106,7 +103,7 @@ void initGpio() {
   // Port B, output.
   GPIO_InitStructure.GPIO_Pin = LED_PIN // Maple's built in LED.
       | DA_PIN | DB_PIN | DC_PIN | DD_PIN | DP_PIN;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  // Input, pull up.
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;  // Push-pull output.
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
@@ -246,10 +243,10 @@ void pulseStrobeLine(uint8_t strobeLine) {
  */
 void setDataLines(uint8_t val) {
   // TODO: One write to all four pins of port A?
-  GPIO_WriteBit(DA_PORT, DA_PIN, (val & 0x01) == 0x01 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(DB_PORT, DB_PIN, (val & 0x02) == 0x02 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(DC_PORT, DC_PIN, (val & 0x04) == 0x04 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(DD_PORT, DD_PIN, (val & 0x08) == 0x08 ? Bit_SET : Bit_RESET);
+  GPIO_WriteBit(DATA_PORT, DA_PIN, (val & 0x01) == 0x01 ? Bit_SET : Bit_RESET);
+  GPIO_WriteBit(DATA_PORT, DB_PIN, (val & 0x02) == 0x02 ? Bit_SET : Bit_RESET);
+  GPIO_WriteBit(DATA_PORT, DC_PIN, (val & 0x04) == 0x04 ? Bit_SET : Bit_RESET);
+  GPIO_WriteBit(DATA_PORT, DD_PIN, (val & 0x08) == 0x08 ? Bit_SET : Bit_RESET);
 }
 
 
