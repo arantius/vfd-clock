@@ -229,12 +229,6 @@ void RTC_IRQHandler(void) {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
-void pulseStrobeLine(uint8_t strobeLine) {
-  setStrobeLines(strobeLine);
-  strobeWait();
-  setStrobeLines(0);
-}
-
 /**
  * Set all four data lines to the 4 LS bits of val.
  *
@@ -274,6 +268,12 @@ void strobeWait() {
       :
       : [n] "r" (n)
       : "r0");
+}
+
+void pulseStrobeLine(uint8_t strobeLine) {
+  setStrobeLines(strobeLine);
+  strobeWait();
+  setStrobeLines(0);
 }
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
