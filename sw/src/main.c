@@ -232,6 +232,12 @@ void RTC_IRQHandler(void) {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
+void pulseStrobeLine(uint8_t strobeLine) {
+  setStrobeLines(strobeLine);
+  strobeWait();
+  setStrobeLines(0);
+}
+
 /**
  * Set all four data lines to the 4 LS bits of val.
  *
@@ -248,10 +254,10 @@ void setDataLines(uint8_t val) {
 
 
 /** Turn exactly zero or one strobe lines on. */
-void setStrobeLines(uint8_t strobeOn) {
+void setStrobeLines(uint8_t strobeLine) {
   GPIO_ResetBits(STROBE_PORT, STROBE_ALL_PINS);
-  if (strobeOn) {
-    GPIO_SetBits(STROBE_PORT, gStrobePins[strobeOn]);
+  if (strobeLine) {
+    GPIO_SetBits(STROBE_PORT, gStrobePins[strobeLine]);
   }
 }
 
@@ -313,14 +319,14 @@ int main() {
           "New second: %d %02d:%02d:%02d\n",
           gSeconds, t->tm_hour, t->tm_min, t->tm_sec);
 
-      setStrobeLines(0); strobeWait();
-      setDataLines(t->tm_hour / 10); setStrobeLines(1); strobeWait();
-      setDataLines(t->tm_hour % 10); setStrobeLines(2); strobeWait();
-      setDataLines(t->tm_min / 10);  setStrobeLines(3); strobeWait();
-      setDataLines(t->tm_min % 10);  setStrobeLines(4); strobeWait();
-      setDataLines(t->tm_sec / 10);  setStrobeLines(5); strobeWait();
-      setDataLines(t->tm_sec % 10);  setStrobeLines(6); strobeWait();
       setStrobeLines(0);
+      strobeWait();
+      setDataLines(t->tm_hour / 10); pulseStrobeLine(1);
+      setDataLines(t->tm_hour % 10); pulseStrobeLine(2);
+      setDataLines(t->tm_min / 10);  pulseStrobeLine(3);
+      setDataLines(t->tm_min % 10);  pulseStrobeLine(4);
+      setDataLines(t->tm_sec / 10);  pulseStrobeLine(5);
+      setDataLines(t->tm_sec % 10);  pulseStrobeLine(6);
     }
   }
 }
