@@ -253,8 +253,8 @@ void setDataLines(uint8_t val) {
 /** Turn exactly zero or one strobe lines on. */
 void setStrobeLines(uint8_t strobeLine) {
   GPIO_ResetBits(STROBE_PORT, STROBE_ALL_PINS);
-  if (strobeLine) {
-    GPIO_SetBits(STROBE_PORT, gStrobePins[strobeLine]);
+  if (strobeLine > 0) {
+    GPIO_SetBits(STROBE_PORT, gStrobePins[strobeLine - 1]);
   }
 }
 
@@ -330,6 +330,7 @@ int main() {
       setDataLines(t->tm_min % 10);  pulseStrobeLine(4);
       setDataLines(t->tm_sec / 10);  pulseStrobeLine(5);
       setDataLines(t->tm_sec % 10);  pulseStrobeLine(6);
+      setDataLines(0);
     }
   }
 }
