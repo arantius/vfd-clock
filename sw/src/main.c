@@ -22,9 +22,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "diag/Trace.h"
 #include "misc.h"
 #include "stm32f10x.h"
+#include "stm32f10x_gpio.h"
 #include "stm32f10x_pwr.h"
 #include "stm32f10x_rcc.h"
 #include "stm32f10x_rtc.h"
+#include "stm32f10x_tim.h"
 
 // Define either _INT or _EXT to select low-speed clock source.
 #define CLK_SRC_INT
@@ -84,7 +86,12 @@ const uint16_t gStrobePins[6] = {
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 void initGpio() {
+  // We have to 1) Enable the GPIO clocks.
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB, ENABLE);
+  // 2) Enable AFIO (we want it later for timers and ...)
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
+  // 3) Disable JTAG (... which must be after AFIO enable) to release its pins.
+  GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
 
   GPIO_InitTypeDef GPIO_InitStructure;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
@@ -173,7 +180,6 @@ void initRtc() {
 void initTimer() {
   // TIM3 clock enable
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2 | RCC_APB1Periph_TIM3, ENABLE);
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 
   // Enable both pins as alternate function.
   GPIO_InitTypeDef GPIO_InitStructure;
