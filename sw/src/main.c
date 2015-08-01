@@ -260,20 +260,20 @@ void setStrobeLines(uint8_t strobeLine) {
 
 
 /** Busy loop a delay for the CD4056B while strobe is high. */
-void strobeWait() {
+inline void strobeWait() {
   // Chip wants strobe high for 35-220 ns, depending on Vdd.  More time
   // when driven at lower voltages.  At 15v, max is 70ns, and we're above 15.
-  // Let's be generous, wait 100ns.
-  // System clock is 72MHz, or 13.89ns per cycle, so loop for 8 cycles (TODO:
-  // how many machine cycles does this really take??) to get ~100ns delay.
-  int n = 8;
-  asm volatile(
-      " mov r0, %[n] \n\t"
-      "1: subs r0, #1 \n\t"
-      " bhi 1b \n\t"
-      :
-      : [n] "r" (n)
-      : "r0");
+  // Let's be generous, wait at least 100ns.  At 72MHz a clock cycle is
+  // 13.89ns; eight of them is enough to consistently measure high for over
+  // 100ns as per my logic analyzer (sampling at 24MHz), Release build.
+  asm("NOP");
+  asm("NOP");
+  asm("NOP");
+  asm("NOP");
+  asm("NOP");
+  asm("NOP");
+  asm("NOP");
+  asm("NOP");
 }
 
 void pulseStrobeLine(uint8_t strobeLine) {
