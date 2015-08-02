@@ -297,10 +297,10 @@ int main() {
   initTimer();
   trace_puts("<<< VfdClock main() init");
 
+  // Start with all digits blank.
   setDataLines(0xf);
   for (int8_t i = 6; i >= 0; i--) {
-    setStrobeLines(i);
-    strobeWait();
+    pulseStrobeLine(i);
   }
 
   while (1) {
