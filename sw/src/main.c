@@ -74,6 +74,13 @@ typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} buttonId;
 #define BUZ_PORT GPIOB
 #define BUZ_PIN GPIO_Pin_0
 
+#define DIGIT_L 10
+#define DIGIT_H 11
+#define DIGIT_P 12
+#define DIGIT_A 13
+#define DIGIT_DASH 14
+#define DIGIT_BLANK 15
+
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 volatile uint8_t gButtonPressed = 0;
