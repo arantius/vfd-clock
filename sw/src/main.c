@@ -311,6 +311,10 @@ void RTC_IRQHandler(void) {
   }
 }
 
+void SysTick_Handler(void) {
+  gBlinkStatus = !gBlinkStatus;
+}
+
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 /**
@@ -391,6 +395,7 @@ int main() {
   initRtc();
   initExti();
   initTimer();
+  SysTick_Config(7200000);
   trace_puts("<<< VfdClock main() init");
 
   // Wait until the first RTC tick.
