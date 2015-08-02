@@ -54,6 +54,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DB_PIN GPIO_Pin_5
 #define DC_PIN GPIO_Pin_4
 #define DD_PIN GPIO_Pin_3
+#define DATA_PIN_MASK (GPIO_Pin_6|GPIO_Pin_5|GPIO_Pin_4|GPIO_Pin_3)
 
 #define DP_PORT GPIOB  // Decimal point.
 #define DP_PIN GPIO_Pin_7
@@ -79,6 +80,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 uint8_t gSecondFlag = 0;
 time_t gSeconds = 0;
 
+// Since the data pins' order are reversed as compared to the bits of the
+// GPIOB register, we need to reverse (i.e. 0b0001 -> 0b1000) their order
+// to match, in order to do an atomic write of all four.
+const uint8_t gDataBitsReversed[16] = {
+    0b0000, 0b1000, 0b0100, 0b1100, 0b0010, 0b1010, 0b0110, 0b1110,
+    0b0001, 0b1001, 0b0101, 0b1101, 0b0011, 0b1011, 0b0111, 0b1111};
 const uint16_t gStrobePins[6] = {
     STROBE1_PIN, STROBE2_PIN, STROBE3_PIN,
     STROBE4_PIN, STROBE5_PIN, STROBE6_PIN};
@@ -242,11 +249,8 @@ void RTC_IRQHandler(void) {
  * L H P A -, while 15 is blank.
  */
 void setDataLines(uint8_t val) {
-  // TODO: One write to all four pins of port A?
-  GPIO_WriteBit(DATA_PORT, DA_PIN, (val & 0x01) == 0x01 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(DATA_PORT, DB_PIN, (val & 0x02) == 0x02 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(DATA_PORT, DC_PIN, (val & 0x04) == 0x04 ? Bit_SET : Bit_RESET);
-  GPIO_WriteBit(DATA_PORT, DD_PIN, (val & 0x08) == 0x08 ? Bit_SET : Bit_RESET);
+  GPIO_Write(
+      GPIOB, (GPIOB->ODR & ~DATA_PIN_MASK) | (gDataBitsReversed[val] << 3) );
 }
 
 
