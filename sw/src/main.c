@@ -356,6 +356,20 @@ void pulseStrobeLine(uint8_t strobeLine) {
   setStrobeLines(0);
 }
 
+void setDisplay(
+    uint8_t digit1, uint8_t digit2, uint8_t digit3,
+    uint8_t digit4, uint8_t digit5, uint8_t digit6) {
+  setStrobeLines(0);
+  strobeWait();
+  setDataLines(digit1); pulseStrobeLine(1);
+  setDataLines(digit2); pulseStrobeLine(2);
+  setDataLines(digit3); pulseStrobeLine(3);
+  setDataLines(digit4); pulseStrobeLine(4);
+  setDataLines(digit5); pulseStrobeLine(5);
+  setDataLines(digit6); pulseStrobeLine(6);
+  setDataLines(0);
+}
+
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 int main() {
@@ -410,15 +424,10 @@ int main() {
           "New second: %d %02d:%02d:%02d\n",
           gSeconds, t->tm_hour, t->tm_min, t->tm_sec);
 
-      setStrobeLines(0);
-      strobeWait();
-      setDataLines(t->tm_hour / 10); pulseStrobeLine(1);
-      setDataLines(t->tm_hour % 10); pulseStrobeLine(2);
-      setDataLines(t->tm_min / 10);  pulseStrobeLine(3);
-      setDataLines(t->tm_min % 10);  pulseStrobeLine(4);
-      setDataLines(t->tm_sec / 10);  pulseStrobeLine(5);
-      setDataLines(t->tm_sec % 10);  pulseStrobeLine(6);
-      setDataLines(0);
+      setDisplay(
+          t->tm_hour / 10, t->tm_hour % 10,
+          t->tm_min / 10, t->tm_min % 10,
+          t->tm_sec / 10, t->tm_sec % 10);
     }
   }
 }
