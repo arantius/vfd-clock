@@ -83,6 +83,8 @@ typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} buttonId;
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
+volatile uint8_t gBlinkStatus = 0;
+volatile uint8_t gBlinkPos = 0;
 volatile uint8_t gButtonPressed = 0;
 uint8_t gSecondFlag = 0;
 time_t gSeconds = 0;
@@ -93,6 +95,8 @@ time_t gSeconds = 0;
 const uint8_t gDataBitsReversed[16] = {
     0b0000, 0b1000, 0b0100, 0b1100, 0b0010, 0b1010, 0b0110, 0b1110,
     0b0001, 0b1001, 0b0101, 0b1101, 0b0011, 0b1011, 0b0111, 0b1111};
+// Amount to change the current time by, when setting this digit up/down.
+const uint16_t gSettingChange[6] = {0, 3600, 600, 60, 10, 1};
 const uint16_t gStrobePins[6] = {
     STROBE1_PIN, STROBE2_PIN, STROBE3_PIN,
     STROBE4_PIN, STROBE5_PIN, STROBE6_PIN};
@@ -363,24 +367,24 @@ void pulseStrobeLine(uint8_t strobeLine) {
   setStrobeLines(0);
 }
 
-void setDisplay(
-    uint8_t digit1, uint8_t digit2, uint8_t digit3,
-    uint8_t digit4, uint8_t digit5, uint8_t digit6) {
+void setDisplay(uint8_t digits[]) {
   setStrobeLines(0);
   strobeWait();
-  setDataLines(digit1); pulseStrobeLine(1);
-  setDataLines(digit2); pulseStrobeLine(2);
-  setDataLines(digit3); pulseStrobeLine(3);
-  setDataLines(digit4); pulseStrobeLine(4);
-  setDataLines(digit5); pulseStrobeLine(5);
-  setDataLines(digit6); pulseStrobeLine(6);
+  setDataLines(digits[0]); pulseStrobeLine(1);
+  setDataLines(digits[1]); pulseStrobeLine(2);
+  setDataLines(digits[2]); pulseStrobeLine(3);
+  setDataLines(digits[3]); pulseStrobeLine(4);
+  setDataLines(digits[4]); pulseStrobeLine(5);
+  setDataLines(digits[5]); pulseStrobeLine(6);
   setDataLines(0);
 }
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 int main() {
-  struct tm *t;
+  uint8_t digits[6] = {
+      DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH};
+  struct tm *t = gmtime(&gSeconds);
 
   trace_puts(">>> VfdClock main() init");
   initGpio();
@@ -389,30 +393,46 @@ int main() {
   initTimer();
   trace_puts("<<< VfdClock main() init");
 
-  // Start with all digits blank.
-  setDataLines(0xf);
-  for (int8_t i = 6; i >= 0; i--) {
-    pulseStrobeLine(i);
-  }
+  // Wait until the first RTC tick.
+  setDisplay(digits);
+  while (gSeconds == 0) { }
 
+  // Logic loop.
   while (1) {
-//    if (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_8)) {
+    digits[0] = t->tm_hour / 10;
+    digits[1] = t->tm_hour % 10;
+    digits[2] = t->tm_min / 10;
+    digits[3] = t->tm_min % 10;
+    digits[4] = t->tm_sec / 10;
+    digits[5] = t->tm_sec % 10;
+
     switch (gButtonPressed) {
     case BTN_MAPLE:
       trace_puts("Maple button!");
       setRtcTime(1435276229);
       break;
     case BTN_SET:
-      trace_puts("Set button!");
+      gBlinkPos += 1;
+      if (gBlinkPos > 5) {
+        gBlinkPos = 0;
+        setDisplay(digits);
+      }
+      trace_printf("Set button; new pos %d\n", gBlinkPos);
       break;
     case BTN_DIM:
       trace_puts("Dim button!");
       break;
     case BTN_UP:
       trace_puts("Up button!");
+      gSeconds = RTC_GetCounter() + gSettingChange[gBlinkPos];
+      setRtcTime(gSeconds);
+      gSecondFlag = 1;
       break;
     case BTN_DOWN:
       trace_puts("Down button!");
+      gSeconds = RTC_GetCounter() - gSettingChange[gBlinkPos];
+      setRtcTime(gSeconds);
+      gSecondFlag = 1;
       break;
     default:
       // No button pressed, ignore.
@@ -420,21 +440,28 @@ int main() {
     }
     gButtonPressed = BTN_NONE;
 
+    if (gBlinkPos > 0) {
+      if (gBlinkStatus) {
+        digits[gBlinkPos] = DIGIT_BLANK;
+        // gBlinkPos of 1 means "hours"; blink both digits.
+        if (gBlinkPos == 1) {
+          digits[0] = DIGIT_BLANK;
+        }
+      }
+      setDisplay(digits);
+    }
+
     if (gSecondFlag) {
       gSecondFlag = 0;
-
-      // Blink the LED just to prove I've got my GPIO correct.
-      GPIO_WriteBit(LED_PORT, LED_PIN, gSeconds & 1);
-
       t = gmtime(&gSeconds);
       trace_printf(
           "New second: %d %02d:%02d:%02d\n",
           gSeconds, t->tm_hour, t->tm_min, t->tm_sec);
 
-      setDisplay(
-          t->tm_hour / 10, t->tm_hour % 10,
-          t->tm_min / 10, t->tm_min % 10,
-          t->tm_sec / 10, t->tm_sec % 10);
+      setDisplay(digits);
+
+      // Blink the LED just to prove I've got my GPIO correct.
+      GPIO_WriteBit(LED_PORT, LED_PIN, gSeconds & 1);
     }
   }
 }
