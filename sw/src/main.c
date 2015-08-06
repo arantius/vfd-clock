@@ -86,6 +86,8 @@ typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} buttonId;
 volatile uint8_t gBlinkStatus = 0;
 volatile uint8_t gBlinkPos = 0;
 volatile uint8_t gButtonPressed = 0;
+TIM_OCInitTypeDef gBuzOc;
+TIM_OCInitTypeDef gGridOc;
 uint8_t gSecondFlag = 0;
 time_t gSeconds = 0;
 
@@ -247,18 +249,16 @@ void initTimer() {
   TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 
-  TIM_OCInitTypeDef TIM_OCInitStructure;
-  TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
-  TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
-  TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
-
   // Grid PWM is on PA0 (D11), this is timer 2 channel 1.
   // 72MHz system clock / 1800 / 80 = 500Hz
   TIM_TimeBaseStructure.TIM_Period = 80;
   TIM_TimeBaseStructure.TIM_Prescaler = 1800;
   TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
-  TIM_OCInitStructure.TIM_Pulse = 40;  // 40 of period 80 = 50% duty
-  TIM_OC1Init(TIM2, &TIM_OCInitStructure);
+  gGridOc.TIM_OCMode = TIM_OCMode_PWM1;
+  gGridOc.TIM_OCPolarity = TIM_OCPolarity_High;
+  gGridOc.TIM_OutputState = TIM_OutputState_Enable;
+  gGridOc.TIM_Pulse = 40;  // 40 of period 80 = 50% duty
+  TIM_OC1Init(TIM2, &gGridOc);
   TIM_OC1PreloadConfig(TIM2, TIM_OCPreload_Enable);
   TIM_ARRPreloadConfig(TIM2, ENABLE);  // ARR = Auto Reload Register
   TIM_Cmd(TIM2, ENABLE);
@@ -268,8 +268,11 @@ void initTimer() {
   TIM_TimeBaseStructure.TIM_Period = 67;
   TIM_TimeBaseStructure.TIM_Prescaler = 1800;
   TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-  TIM_OCInitStructure.TIM_Pulse = 40;  // 40 of period 80 = 50% duty
-  TIM_OC3Init(TIM3, &TIM_OCInitStructure);
+  gBuzOc.TIM_OCMode = TIM_OCMode_PWM1;
+  gBuzOc.TIM_OCPolarity = TIM_OCPolarity_High;
+  gBuzOc.TIM_OutputState = TIM_OutputState_Enable;
+  gBuzOc.TIM_Pulse = 30;
+  TIM_OC3Init(TIM3, &gBuzOc);
   TIM_OC3PreloadConfig(TIM3, TIM_OCPreload_Enable);
   TIM_ARRPreloadConfig(TIM3, ENABLE);  // ARR = Auto Reload Register
   TIM_Cmd(TIM3, ENABLE);
@@ -429,7 +432,10 @@ int main() {
       trace_printf("Set button; new pos %d\n", gBlinkPos);
       break;
     case BTN_DIM:
-      trace_puts("Dim button!");
+      gGridOc.TIM_Pulse += 10;
+      gGridOc.TIM_Pulse %= 80;
+      TIM_OC1Init(TIM2, &gGridOc);
+      trace_printf("Dim button; pulse now %d of 80.\n", gGridOc.TIM_Pulse);
       break;
     case BTN_UP:
       trace_puts("Up button!");
