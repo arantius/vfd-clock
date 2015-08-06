@@ -473,6 +473,8 @@ int main() {
           "New second: %d %02d:%02d:%02d\n",
           gSeconds, t->tm_hour, t->tm_min, t->tm_sec);
       setDisplay(digits);
+
+      GPIO_WriteBit(DP_PORT, DP_PIN, gSeconds & 1 ? SET : RESET);
     }
   }
 }
