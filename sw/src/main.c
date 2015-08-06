@@ -466,11 +466,7 @@ int main() {
       trace_printf(
           "New second: %d %02d:%02d:%02d\n",
           gSeconds, t->tm_hour, t->tm_min, t->tm_sec);
-
       setDisplay(digits);
-
-      // Blink the LED just to prove I've got my GPIO correct.
-      GPIO_WriteBit(LED_PORT, LED_PIN, gSeconds & 1);
     }
   }
 }
