@@ -398,6 +398,10 @@ int main() {
   SysTick_Config(7200000);
   trace_puts("<<< VfdClock main() init");
 
+  // Disable buzzer.
+  GPIO_WriteBit(BUZ_PORT, BUZ_PIN, RESET);
+  TIM_Cmd(TIM3, DISABLE);
+
   // Wait until the first RTC tick.
   setDisplay(digits);
   while (gSeconds == 0) { }
