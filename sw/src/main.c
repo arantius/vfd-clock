@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "diag/Trace.h"
 #include "misc.h"
 #include "stm32f10x.h"
-#include "stm32f10x_exti.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_pwr.h"
 #include "stm32f10x_rcc.h"
@@ -37,16 +36,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Maple's built in LED.
 #define LED_PORT GPIOB
 #define LED_PIN GPIO_Pin_1
+
 // Maple's built in button.
-#define BTN_MAPLE_PORT GPIOB
 #define BTN_MAPLE_PIN GPIO_Pin_8
 
-#define BTN_MAPLE_PORT GPIOB
+#define BTN_PORT GPIOB
 #define BTN_DIM_PIN GPIO_Pin_10
 #define BTN_SET_PIN GPIO_Pin_12
 #define BTN_UP_PIN GPIO_Pin_13
 #define BTN_DN_PIN GPIO_Pin_11
 typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} buttonId;
+#define BTN_ALL_PINS (BTN_MAPLE_PIN|BTN_DIM_PIN|BTN_SET_PIN|BTN_UP_PIN|BTN_DN_PIN)
 
 #define DATA_PORT GPIOB
 #define DA_PIN GPIO_Pin_6
@@ -83,8 +83,12 @@ typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} buttonId;
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
+volatile uint16_t gDpTick = 0;
 volatile uint8_t gBlinkStatus = 0;
 volatile uint8_t gBlinkPos = 0;
+volatile uint16_t gBlinkTick = 0;
+volatile uint8_t gButtonDebounce = 0;
+volatile uint8_t gButtonPending = 0;
 volatile uint8_t gButtonPressed = 0;
 TIM_OCInitTypeDef gBuzOc;
 TIM_OCInitTypeDef gGridOc;
@@ -104,37 +108,6 @@ const uint16_t gStrobePins[6] = {
     STROBE4_PIN, STROBE5_PIN, STROBE6_PIN};
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
-
-void initExti() {
-  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource8);  // Maple button
-  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource10);  // Dim
-  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource11);  // Down
-  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource12);  // Set
-  GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource13);  // Up
-
-  // My buttons connect to ground, need a pullup, trigger on rising.
-  EXTI_InitTypeDef EXTI_InitStructure = {
-      .EXTI_Line = EXTI_Line10 | EXTI_Line11 | EXTI_Line12 | EXTI_Line13,
-      .EXTI_Mode = EXTI_Mode_Interrupt,
-      .EXTI_Trigger = EXTI_Trigger_Rising,
-      .EXTI_LineCmd = ENABLE,
-      };
-  EXTI_Init(&EXTI_InitStructure);
-  // Maple button connects high, needs a pulldown, trigger on falling.
-  EXTI_InitStructure.EXTI_Line = EXTI_Line8;
-  EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;
-  EXTI_Init(&EXTI_InitStructure);
-
-  NVIC_InitTypeDef NVIC_InitStructure = {
-      .NVIC_IRQChannel = EXTI9_5_IRQn,
-      .NVIC_IRQChannelPreemptionPriority = 0x0F,
-      .NVIC_IRQChannelSubPriority = 0x0F,
-      .NVIC_IRQChannelCmd = ENABLE,
-      };
-  NVIC_Init(&NVIC_InitStructure);
-  NVIC_InitStructure.NVIC_IRQChannel = EXTI15_10_IRQn;
-  NVIC_Init(&NVIC_InitStructure);
-}
 
 void initGpio() {
   // We have to 1) Enable the GPIO clocks.
@@ -280,32 +253,6 @@ void initTimer() {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
-void EXTI9_5_IRQHandler(void) {
-  if (EXTI_GetITStatus(EXTI_Line8) != RESET) {
-    gButtonPressed = BTN_MAPLE;
-    EXTI_ClearITPendingBit(EXTI_Line8);
-  }
-}
-
-void EXTI15_10_IRQHandler(void) {
-  if (EXTI_GetITStatus(EXTI_Line10) != RESET) {
-    gButtonPressed = BTN_DIM;
-    EXTI_ClearITPendingBit(EXTI_Line10);
-  }
-  if (EXTI_GetITStatus(EXTI_Line11) != RESET) {
-    gButtonPressed = BTN_DOWN;
-    EXTI_ClearITPendingBit(EXTI_Line11);
-  }
-  if (EXTI_GetITStatus(EXTI_Line12) != RESET) {
-    gButtonPressed = BTN_SET;
-    EXTI_ClearITPendingBit(EXTI_Line12);
-  }
-  if (EXTI_GetITStatus(EXTI_Line13) != RESET) {
-    gButtonPressed = BTN_UP;
-    EXTI_ClearITPendingBit(EXTI_Line13);
-  }
-}
-
 void RTC_IRQHandler(void) {
   if (RTC_GetFlagStatus(RTC_FLAG_SEC) != RESET) {
     RTC_ClearFlag(RTC_FLAG_SEC);
@@ -315,7 +262,40 @@ void RTC_IRQHandler(void) {
 }
 
 void SysTick_Handler(void) {
-  gBlinkStatus = !gBlinkStatus;
+  gBlinkTick++;
+  if (gBlinkTick > 125) {
+    gBlinkTick = 0;
+    gBlinkStatus = !gBlinkStatus;
+  }
+
+  uint8_t btnPressed = 0;
+  uint16_t btns = GPIO_ReadInputData(BTN_PORT) & BTN_ALL_PINS;
+  if ((btns & BTN_MAPLE_PIN) == BTN_MAPLE_PIN) btnPressed = BTN_MAPLE;
+  else if ((btns & BTN_DIM_PIN) == 0) btnPressed = BTN_DIM;
+  else if ((btns & BTN_DN_PIN) == 0) btnPressed = BTN_DOWN;
+  else if ((btns & BTN_UP_PIN) == 0) btnPressed = BTN_UP;
+  else if ((btns & BTN_SET_PIN) == 0) btnPressed = BTN_SET;
+  if (btnPressed && gButtonPending == btnPressed) {
+    if (gButtonDebounce > 10) {
+      // Button already activated, still held, do nothing.
+    } else if (gButtonDebounce == 10) {
+      // Transition!  Set pressed button.
+      gButtonPressed = btnPressed;
+      gButtonDebounce++;
+    } else {
+      gButtonDebounce++;
+    }
+  } else {
+    gButtonDebounce = 0;
+    gButtonPending = btnPressed;
+  }
+
+  if (gDpTick > 0) {
+    gDpTick--;
+    if (gDpTick == 0) {
+      GPIO_WriteBit(DP_PORT, DP_PIN, RESET);
+    }
+  }
 }
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
@@ -396,9 +376,8 @@ int main() {
   trace_puts(">>> VfdClock main() init");
   initGpio();
   initRtc();
-  initExti();
   initTimer();
-  SysTick_Config(7200000);
+  SysTick_Config(72000);  // 1kHz
   trace_puts("<<< VfdClock main() init");
 
   // Disable buzzer.
@@ -469,12 +448,10 @@ int main() {
     if (gSecondFlag) {
       gSecondFlag = 0;
       t = gmtime(&gSeconds);
-      trace_printf(
-          "New second: %d %02d:%02d:%02d\n",
-          gSeconds, t->tm_hour, t->tm_min, t->tm_sec);
       setDisplay(digits);
-
-      GPIO_WriteBit(DP_PORT, DP_PIN, gSeconds & 1 ? SET : RESET);
+      // Blink decimal point.
+      GPIO_WriteBit(DP_PORT, DP_PIN, SET);
+      gDpTick = 500;
     }
   }
 }
