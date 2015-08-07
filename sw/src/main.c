@@ -28,9 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stm32f10x_rtc.h"
 #include "stm32f10x_tim.h"
 
-// Define either _INT or _EXT to select low-speed clock source.
-#define CLK_SRC_INT
-
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 // Maple's built in LED.
@@ -141,6 +138,9 @@ void initGpio() {
   GPIO_Init(GPIOB, &GPIO_InitStructure);
 }
 
+
+// Define either _INT or _EXT to select low-speed clock source.
+#define CLK_SRC_EXT
 
 // AN2821: Clock/calendar implementation on the STM32F10xxx microcontroller RTC
 // http://www.st.com/web/en/resource/technical/document/application_note/CD00207941.pdf
