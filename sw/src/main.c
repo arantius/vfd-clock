@@ -183,10 +183,6 @@ void initRtc() {
     RTC_WaitForLastTask();
   #endif
 
-  // Default value: midnight Jan 1, 2015.
-  RTC_SetCounter(1420070400);
-  RTC_WaitForLastTask();
-
   RTC_ClearITPendingBit(RTC_IT_SEC);
   RTC_ITConfig(RTC_IT_ALR|RTC_IT_OW, DISABLE);
   RTC_ITConfig(RTC_IT_SEC, ENABLE);
@@ -369,10 +365,6 @@ void setDisplay(uint8_t digits[]) {
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 int main() {
-  uint8_t digits[6] = {
-      DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH};
-  struct tm *t = gmtime(&gSeconds);
-
   trace_puts(">>> VfdClock main() init");
   initGpio();
   initRtc();
@@ -384,9 +376,11 @@ int main() {
   GPIO_WriteBit(BUZ_PORT, BUZ_PIN, RESET);
   TIM_Cmd(TIM3, DISABLE);
 
-  // Wait until the first RTC tick.
+  uint8_t digits[6] = {
+      DIGIT_BLANK, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_BLANK};
   setDisplay(digits);
-  while (gSeconds == 0) { }
+  gSeconds = RTC_GetCounter();
+  struct tm *t = gmtime(&gSeconds);
 
   // Logic loop.
   while (1) {
@@ -400,7 +394,7 @@ int main() {
     switch (gButtonPressed) {
     case BTN_MAPLE:
       trace_puts("Maple button!");
-      setRtcTime(1435276229);
+      setRtcTime(1420070400);
       break;
     case BTN_SET:
       gBlinkPos += 1;
