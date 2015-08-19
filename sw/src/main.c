@@ -384,8 +384,11 @@ int main() {
 
   // Logic loop.
   while (1) {
-    digits[0] = t->tm_hour / 10;
-    digits[1] = t->tm_hour % 10;
+    // TODO: Configurable 12/24 hour.
+    uint8_t h = t->tm_hour;
+    h %= 12; if (h == 0) h = 12;  // Cast 24->12 hour.
+    digits[0] = h / 10;
+    digits[1] = h % 10;
     digits[2] = t->tm_min / 10;
     digits[3] = t->tm_min % 10;
     digits[4] = t->tm_sec / 10;
