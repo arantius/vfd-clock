@@ -17,6 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include "diag/Trace.h"
@@ -78,9 +79,10 @@ typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} buttonId;
 #define DIGIT_DASH 14
 #define DIGIT_BLANK 15
 
+#define CR_LF "\x0D\x0A"
+
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
-volatile uint16_t gDpTick = 0;
 volatile uint8_t gBlinkStatus = 0;
 volatile uint8_t gBlinkPos = 0;
 volatile uint16_t gBlinkTick = 0;
@@ -88,9 +90,21 @@ volatile uint8_t gButtonDebounce = 0;
 volatile uint8_t gButtonPending = 0;
 volatile uint8_t gButtonPressed = 0;
 TIM_OCInitTypeDef gBuzOc;
+volatile uint16_t gDpTick = 0;
 TIM_OCInitTypeDef gGridOc;
 uint8_t gSecondFlag = 0;
 time_t gSeconds = 0;
+
+#define USART_BUF_SIZE 128
+char gUsartBuf[USART_BUF_SIZE];
+volatile uint8_t gUsartIdx = 0;
+
+uint8_t gGpsAvailable = 0;
+time_t gGpsNextPoll = 0;
+#define GPS_TIME_POLL_FREQ 101
+uint8_t gSettingUtcOffset = 0;
+#define UTC_OFFSET_ADJUST 1800
+int32_t gUtcOffset = 0;
 
 // Since the data pins' order are reversed as compared to the bits of the
 // GPIOB register, we need to reverse (i.e. 0b0001 -> 0b1000) their order
@@ -103,6 +117,17 @@ const uint16_t gSettingChange[6] = {0, 3600, 600, 60, 10, 1};
 const uint16_t gStrobePins[6] = {
     STROBE1_PIN, STROBE2_PIN, STROBE3_PIN,
     STROBE4_PIN, STROBE5_PIN, STROBE6_PIN};
+
+// \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
+
+void usartTx(const char *cmd) {
+  uint16_t i;
+  char c;
+  for (i = 0; (c = cmd[i]); i++) {
+    USART_SendData(USART1, c);
+    while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET) { }
+  }
+}
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
@@ -193,7 +218,7 @@ void initRtc() {
   NVIC_InitTypeDef NVIC_InitStructure = {
     .NVIC_IRQChannel = RTC_IRQn,
     .NVIC_IRQChannelPreemptionPriority = 1,
-    .NVIC_IRQChannelSubPriority = 0,
+    .NVIC_IRQChannelSubPriority = 2,
     .NVIC_IRQChannelCmd = ENABLE,
   };
   NVIC_Init(&NVIC_InitStructure);
@@ -247,6 +272,57 @@ void initTimer() {
   TIM_Cmd(TIM3, ENABLE);
 }
 
+
+void initUart() {
+  RCC_APB2PeriphClockCmd(
+      RCC_APB2Periph_USART1 | RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO,
+      ENABLE);
+
+  GPIO_InitTypeDef GPIO_InitStructure;
+  GPIO_StructInit(&GPIO_InitStructure);
+
+  // Transmit pin.
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9,
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  // Receive pin.
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
+  GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+  // Default clock structure works for us.
+  USART_ClockInitTypeDef USART_ClockInitStructure;
+  USART_ClockStructInit(&USART_ClockInitStructure);
+  USART_ClockInit(USART1, &USART_ClockInitStructure);
+
+  // Default USART structure works for us.
+  USART_InitTypeDef USART_InitStructure;
+  USART_StructInit(&USART_InitStructure);
+  USART_Init(USART1, &USART_InitStructure);
+
+  USART_Cmd(USART1, ENABLE);
+
+  // Disable data pushes from GPS.
+  usartTx("$PUBX,40,GGA,0,0,0,0*5A\r\n");
+  usartTx("$PUBX,40,GGA,0,0,0,0*5A\r\n");  // Repeat first; timing work around.
+  usartTx("$PUBX,40,GLL,0,0,0,0*5C\r\n");
+  usartTx("$PUBX,40,GSA,0,0,0,0*4E\r\n");
+  usartTx("$PUBX,40,GSV,0,0,0,0*59\r\n");
+  usartTx("$PUBX,40,RMC,0,0,0,0*47\r\n");
+  usartTx("$PUBX,40,VTG,0,0,0,0*5E\r\n");
+
+  // Now that it won't be noisy, enable the RX interrupt.
+  NVIC_InitTypeDef NVIC_InitStructure = {
+    .NVIC_IRQChannel = USART1_IRQn,
+    .NVIC_IRQChannelPreemptionPriority = 1,
+    .NVIC_IRQChannelSubPriority = 1,
+    .NVIC_IRQChannelCmd = ENABLE,
+  };
+  NVIC_Init(&NVIC_InitStructure);
+  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+}
+
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
 void RTC_IRQHandler(void) {
@@ -256,6 +332,7 @@ void RTC_IRQHandler(void) {
     gSeconds = RTC_GetCounter();
   }
 }
+
 
 void SysTick_Handler(void) {
   gBlinkTick++;
@@ -292,6 +369,18 @@ void SysTick_Handler(void) {
       GPIO_WriteBit(DP_PORT, DP_PIN, RESET);
     }
   }
+}
+
+
+void USART1_IRQHandler(void) {
+  if (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET) return;
+
+  uint16_t usartData = USART_ReceiveData(USART1);
+  if (gUsartIdx >= (USART_BUF_SIZE - 2)) {
+    gUsartIdx = 0;
+  }
+  gUsartBuf[gUsartIdx] = usartData & 0xFF;
+  gUsartIdx += 1;
 }
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
@@ -364,11 +453,58 @@ void setDisplay(uint8_t digits[]) {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
+void handleGpsLine(uint8_t theirChk) {
+  uint8_t chk = 0;
+  for (uint8_t i = 1; ; i++) {
+    if (gUsartBuf[i] == 0) break;
+    if (gUsartBuf[i] == '*') break;
+    chk ^= gUsartBuf[i];
+  }
+
+  if (theirChk != chk) {
+    trace_printf("Ignoring checksum mismatch: %02x / %02x\n", theirChk, chk);
+    return;
+  }
+
+  gGpsAvailable = 1;
+
+  if (memcmp("$PUBX,00,", gUsartBuf, 9)) {
+    trace_printf("Ignoring unknown GPS line:\n%s\n", gUsartBuf);
+    return;
+  }
+
+  // Lame cheat.  It just so happens that the fields we care about
+  // fall into a fixed position format.  Examples:
+  //
+  // 0         1         2         3         4         5         6
+  // $PUBX,00,151331.00,4045.72085,N,07359.25599,W,0.000,NF,2257,...*11
+  // $PUBX,00,151513.00,4044.60871,N,07359.69262,W,0.000,G3,21,...*60
+  //
+  // Field 8 is "navigation status", where "NF" means no fix, "DR" means
+  // dead reckoning, and anything else is a solution we're happy with.
+  // If we have anything but those two, we're happy to pull the time
+  // out of field 2, in hhmmss.sss format.
+  if (!memcmp("NF", gUsartBuf + 52, 2) || !memcmp("DR", gUsartBuf + 52, 2)) {
+    trace_printf("Ignoring GPS line without fix:\n%s\n", gUsartBuf);
+    return;
+  }
+
+  trace_printf("Setting time from GPS line:\n%s\n", gUsartBuf);
+  struct tm *t = gmtime(&gSeconds);
+  t->tm_hour = ((gUsartBuf[9] - '0') * 10) + (gUsartBuf[10] - '0');
+  t->tm_min = ((gUsartBuf[11] - '0') * 10) + (gUsartBuf[12] - '0');
+  t->tm_sec = ((gUsartBuf[12] - '0') * 10) + (gUsartBuf[13] - '0');
+  setRtcTime(mktime(t) + gUtcOffset);
+}
+
+// \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
+
 int main() {
   trace_puts(">>> VfdClock main() init");
   initGpio();
   initRtc();
   initTimer();
+  initUart();
   SysTick_Config(72000);  // 1kHz
   trace_puts("<<< VfdClock main() init");
 
@@ -384,28 +520,52 @@ int main() {
 
   // Logic loop.
   while (1) {
-    // TODO: Configurable 12/24 hour.
-    uint8_t h = t->tm_hour;
-    h %= 12; if (h == 0) h = 12;  // Cast 24->12 hour.
-    digits[0] = h / 10;
-    digits[1] = h % 10;
-    digits[2] = t->tm_min / 10;
-    digits[3] = t->tm_min % 10;
-    digits[4] = t->tm_sec / 10;
-    digits[5] = t->tm_sec % 10;
+    if (gSettingUtcOffset) {
+      digits[0] = 0;
+      if (gBlinkStatus) {
+        memchr(digits + 1, DIGIT_BLANK, 5);
+      } else {
+        digits[1] = gUtcOffset < 0 ? DIGIT_DASH : DIGIT_BLANK;
+        uint16_t dispHrs = abs(gUtcOffset / 3600);
+        uint16_t dispMins = abs(gUtcOffset / 60) % 60;
+        digits[2] = (dispHrs / 10) % 10;
+        digits[3] = (dispHrs / 1) % 10;
+        digits[4] = (dispMins / 10) % 10;
+        digits[5] = (dispMins / 1) % 10;
+      }
+    } else {
+      // TODO: Configurable 12/24 hour.
+      uint8_t h = t->tm_hour;
+      h %= 12; if (h == 0) h = 12;  // Cast 24->12 hour.
+      digits[0] = h / 10;
+      digits[1] = h % 10;
+      digits[2] = t->tm_min / 10;
+      digits[3] = t->tm_min % 10;
+      digits[4] = t->tm_sec / 10;
+      digits[5] = t->tm_sec % 10;
+    }
 
     switch (gButtonPressed) {
+    case BTN_NONE:
+      break;
     case BTN_MAPLE:
       trace_puts("Maple button!");
       setRtcTime(1420070400);
+      gGpsAvailable = !gGpsAvailable;
       break;
     case BTN_SET:
-      gBlinkPos += 1;
-      if (gBlinkPos > 5) {
-        gBlinkPos = 0;
-        setDisplay(digits);
+      if (gGpsAvailable) {
+        gSettingUtcOffset = !gSettingUtcOffset;
+        trace_printf("Set button; setting utc offset=%d\n", gSettingUtcOffset);
+        gSecondFlag |= !gSettingUtcOffset;
+      } else {
+        gBlinkPos += 1;
+        if (gBlinkPos > 5) {
+          gBlinkPos = 0;
+          setDisplay(digits);
+        }
+        trace_printf("Set button; new pos %d\n", gBlinkPos);
       }
-      trace_printf("Set button; new pos %d\n", gBlinkPos);
       break;
     case BTN_DIM:
       gGridOc.TIM_Pulse += 10;
@@ -415,15 +575,29 @@ int main() {
       break;
     case BTN_UP:
       trace_puts("Up button!");
-      gSeconds = RTC_GetCounter() + gSettingChange[gBlinkPos];
-      setRtcTime(gSeconds);
-      gSecondFlag = 1;
+      if (gSettingUtcOffset) {
+        gUtcOffset += UTC_OFFSET_ADJUST;
+        if (gUtcOffset > (14 * 3600)) gUtcOffset = -12 * 3600;
+        trace_printf("utc offset now=%d\n", gUtcOffset);
+        setRtcTime(RTC_GetCounter() + UTC_OFFSET_ADJUST);
+      } else {
+        gSeconds = RTC_GetCounter() + gSettingChange[gBlinkPos];
+        setRtcTime(gSeconds);
+        gSecondFlag = 1;
+      }
       break;
     case BTN_DOWN:
       trace_puts("Down button!");
-      gSeconds = RTC_GetCounter() - gSettingChange[gBlinkPos];
-      setRtcTime(gSeconds);
-      gSecondFlag = 1;
+      if (gSettingUtcOffset) {
+        gUtcOffset -= UTC_OFFSET_ADJUST;
+        if (gUtcOffset < (-12 * 3600)) gUtcOffset = 14 * 3600;
+        trace_printf("utc offset now=%d\n", gUtcOffset);
+        setRtcTime(RTC_GetCounter() - UTC_OFFSET_ADJUST);
+      } else {
+        gSeconds = RTC_GetCounter() - gSettingChange[gBlinkPos];
+        setRtcTime(gSeconds);
+        gSecondFlag = 1;
+      }
       break;
     default:
       // No button pressed, ignore.
@@ -440,6 +614,8 @@ int main() {
         }
       }
       setDisplay(digits);
+    } else if (gSettingUtcOffset) {
+      setDisplay(digits);
     }
 
     if (gSecondFlag) {
@@ -449,6 +625,24 @@ int main() {
       // Blink decimal point.
       GPIO_WriteBit(DP_PORT, DP_PIN, SET);
       gDpTick = 500;
+    }
+
+    // Read GPS data, if it exists.
+    char *lineEnd = strstr(gUsartBuf, CR_LF);
+    if (lineEnd) {
+      *lineEnd = 0; // CR_LF -> null terminator.
+
+      uint8_t theirChk = ( ( (*(lineEnd - 2)) - '0' ) << 4 )
+          + ( (*(lineEnd - 1)) - '0' );
+      handleGpsLine(theirChk);
+
+      // Store the next GPS line at the beginning of the buffer.
+      gUsartIdx = 0;
+    }
+    // Request new GPS data periodically.
+    if ( gGpsNextPoll < gSeconds) {
+      usartTx("$PUBX,00*33\r\n");
+      gGpsNextPoll = gSeconds + GPS_TIME_POLL_FREQ;
     }
   }
 }

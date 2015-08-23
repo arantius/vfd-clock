@@ -1,5 +1,7 @@
 Archive member included because of file (symbol)
 
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
+                              ./src/main.o (symbol from plugin) (abs)
 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
                               ./system/src/newlib/_sbrk.o (symbol from plugin) (__errno)
 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime.o)
@@ -10,6 +12,12 @@ c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none
                               c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o) (_impure_ptr)
 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
                               c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime.o) (malloc)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr.o)
+                              ./src/main.o (symbol from plugin) (memchr)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcmp.o)
+                              ./src/main.o (symbol from plugin) (memcmp)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
+                              ./src/main.o (symbol from plugin) (mktime)
 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-month_lengths.o)
                               c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime_r.o) (__month_lengths)
 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-freer.o)
@@ -18,30 +26,40 @@ c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none
                               c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o) (_malloc_r)
 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
                               c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o) (_sbrk_r)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-strstr.o)
+                              ./src/main.o (symbol from plugin) (strstr)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzcalc_limits.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o) (__tzcalc_limits)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzlock.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o) (__tz_lock)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o) (_daylight)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-div.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o) (div)
+c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gettzinfo.o)
+                              c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o) (__gettzinfo)
 
 Allocating common symbols
 Common symbol       size              file
 
-errno               0x4               C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+gUsartBuf           0x80              ./src/main.o (symbol from plugin)
+errno               0x4               C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
 gGridOc             0x10              ./src/main.o (symbol from plugin)
 gBuzOc              0x10              ./src/main.o (symbol from plugin)
 
 Discarded input sections
 
  .text          0x00000000        0x0 ./system/src/stm32f1-stdperiph/misc.o (symbol from plugin)
- .text          0x00000000        0x0 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .data          0x00000000        0x0 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss           0x00000000        0x0 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .data.APBAHBPrescTable
-                0x00000000       0x10 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .data.ADCPrescTable
-                0x00000000        0x4 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+ .text          0x00000000        0x0 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .data          0x00000000        0x0 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss           0x00000000        0x0 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text          0x00000000        0x0 ./system/src/stm32f1-stdperiph/stm32f10x_exti.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/stm32f1-stdperiph/stm32f10x_gpio.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/stm32f1-stdperiph/stm32f10x_pwr.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/stm32f1-stdperiph/stm32f10x_rcc.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/stm32f1-stdperiph/stm32f10x_rtc.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/stm32f1-stdperiph/stm32f10x_tim.o (symbol from plugin)
+ .text          0x00000000        0x0 ./system/src/stm32f1-stdperiph/stm32f10x_usart.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/newlib/_cxx.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/newlib/_exit.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/newlib/_sbrk.o (symbol from plugin)
@@ -56,6 +74,9 @@ Discarded input sections
  .text          0x00000000        0x0 ./system/src/cmsis/system_stm32f10x.o (symbol from plugin)
  .text          0x00000000        0x0 ./system/src/cmsis/vectors_stm32f10x.o (symbol from plugin)
  .text          0x00000000        0x0 ./src/main.o (symbol from plugin)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
  .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
  .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
  .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
@@ -74,6 +95,15 @@ Discarded input sections
  .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
  .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
  .text.free     0x00000000       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcmp.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcmp.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcmp.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
  .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-month_lengths.o)
  .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-month_lengths.o)
  .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-month_lengths.o)
@@ -90,6 +120,29 @@ Discarded input sections
  .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
  .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
  .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-strstr.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-strstr.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-strstr.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzcalc_limits.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzcalc_limits.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzcalc_limits.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzlock.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzlock.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzlock.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+ .data._tzname  0x00000000        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+ .bss._timezone
+                0x00000000        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+ .rodata.str1.1
+                0x00000000        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-div.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-div.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-div.o)
+ .text          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gettzinfo.o)
+ .data          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gettzinfo.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gettzinfo.o)
 
 Memory Configuration
 
@@ -108,7 +161,7 @@ MEMORY_ARRAY     0x00000000         0x00000000         xrw
 Linker script and memory map
 
 LOAD ./system/src/stm32f1-stdperiph/misc.o
-LOAD C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+LOAD C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
 LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/armv7-m\libgcc.a
 LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a
 LOAD c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libc_nano.a
@@ -120,6 +173,7 @@ LOAD ./system/src/stm32f1-stdperiph/stm32f10x_pwr.o
 LOAD ./system/src/stm32f1-stdperiph/stm32f10x_rcc.o
 LOAD ./system/src/stm32f1-stdperiph/stm32f10x_rtc.o
 LOAD ./system/src/stm32f1-stdperiph/stm32f10x_tim.o
+LOAD ./system/src/stm32f1-stdperiph/stm32f10x_usart.o
 LOAD ./system/src/newlib/_cxx.o
 LOAD ./system/src/newlib/_exit.o
 LOAD ./system/src/newlib/_sbrk.o
@@ -152,101 +206,140 @@ END GROUP
                 0x20004c00                __Main_Stack_Limit = (__stack - __Main_Stack_Size)
                 0x20004c00                PROVIDE (_Main_Stack_Limit, __Main_Stack_Limit)
                 0x00000100                _Minimum_Stack_Size = 0x100
-                0x200000b8                PROVIDE (_Heap_Begin, _end_noinit)
+                0x200001a0                PROVIDE (_Heap_Begin, _end_noinit)
                 0x20004c00                PROVIDE (_Heap_Limit, (__stack - __Main_Stack_Size))
 
-.isr_vector     0x08000000      0x810
+.isr_vector     0x08000000      0xc0c
                 0x08000000                . = ALIGN (0x4)
  *(.isr_vector)
- .isr_vector    0x08000000      0x10c C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+ .isr_vector    0x08000000      0x10c C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
                 0x08000000                __isr_vectors
  *(.cfmconfig)
  *(.after_vectors .after_vectors.*)
  .after_vectors
-                0x0800010c      0x704 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x0800010c      0xb00 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
                 0x08000160                UsageFault_Handler_C
                 0x08000162                BusFault_Handler_C
                 0x08000164                HardFault_Handler_C
                 0x0800019c                _start
-                0x08000810                . = ALIGN (0x4)
+                0x08000c0c                . = ALIGN (0x4)
 
-.inits          0x08000810        0x0
-                0x08000810                . = ALIGN (0x4)
+.inits          0x08000c0c        0x0
+                0x08000c0c                . = ALIGN (0x4)
  *(.init)
  *(.fini)
-                0x08000810                . = ALIGN (0x4)
-                0x08000810                PROVIDE (__preinit_array_start, .)
+                0x08000c0c                . = ALIGN (0x4)
+                0x08000c0c                PROVIDE (__preinit_array_start, .)
  *(.preinit_array_sysinit .preinit_array_sysinit.*)
  *(.preinit_array_platform .preinit_array_platform.*)
  *(.preinit_array .preinit_array.*)
-                0x08000810                PROVIDE (__preinit_array_end, .)
-                0x08000810                . = ALIGN (0x4)
-                0x08000810                PROVIDE (__init_array_start, .)
+                0x08000c0c                PROVIDE (__preinit_array_end, .)
+                0x08000c0c                . = ALIGN (0x4)
+                0x08000c0c                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array)
-                0x08000810                PROVIDE (__init_array_end, .)
-                0x08000810                . = ALIGN (0x4)
-                0x08000810                PROVIDE (__fini_array_start, .)
+                0x08000c0c                PROVIDE (__init_array_end, .)
+                0x08000c0c                . = ALIGN (0x4)
+                0x08000c0c                PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array)
-                0x08000810                PROVIDE (__fini_array_end, .)
-                0x08000810                . = ALIGN (0x4)
+                0x08000c0c                PROVIDE (__fini_array_end, .)
+                0x08000c0c                . = ALIGN (0x4)
 
-.flashtext      0x08000810        0x0
-                0x08000810                . = ALIGN (0x4)
+.flashtext      0x08000c0c        0x0
+                0x08000c0c                . = ALIGN (0x4)
  *(.flashtext .flashtext.*)
-                0x08000810                . = ALIGN (0x4)
+                0x08000c0c                . = ALIGN (0x4)
 
-.text           0x08000810      0x5c0
-                0x08000810                . = ALIGN (0x4)
+.text           0x08000c0c      0xe3c
+                0x08000c0c                . = ALIGN (0x4)
  *(.text .text.*)
  .text.setDataLines
-                0x08000810       0x20 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x08000c0c       0x20 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .text.USART1_IRQHandler
+                0x08000c2c       0x38 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text.SysTick_Handler
-                0x08000830       0xc4 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x08000c64       0xc4 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .text.usartTx  0x08000d28       0x24 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text.RTC_WaitForLastTask
-                0x080008f4       0x10 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x08000d4c       0x10 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text.setRtcTime
-                0x08000904       0x48 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x08000d5c       0x48 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text.RTC_GetCounter
-                0x0800094c       0x14 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x08000da4       0x14 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text.RTC_IRQHandler
-                0x08000960       0x34 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x08000db8       0x34 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text.GPIO_Init
-                0x08000994       0x9c C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x08000dec       0x9c C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .text.NVIC_Init
+                0x08000e88       0x6c C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text.pulseStrobeLine
-                0x08000a30       0x30 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x08000ef4       0x30 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .text.setDisplay
-                0x08000a60       0x70 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .text._sbrk    0x08000ad0       0x40 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
-                0x08000ad0                _sbrk
- .text.__errno  0x08000b10        0xc c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
-                0x08000b10                __errno
- .text.gmtime   0x08000b1c       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime.o)
-                0x08000b1c                gmtime
+                0x08000f24       0x70 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .text._sbrk    0x08000f94       0x40 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+                0x08000f94                _sbrk
+ .text.abs      0x08000fd4        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
+                0x08000fd4                abs
+ .text.__errno  0x08000fdc        0xc c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
+                0x08000fdc                __errno
+ .text.gmtime   0x08000fe8       0x24 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime.o)
+                0x08000fe8                gmtime
  .text.gmtime_r
-                0x08000b40      0x124 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime_r.o)
-                0x08000b40                gmtime_r
- .text.malloc   0x08000c64       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
-                0x08000c64                malloc
+                0x0800100c      0x124 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime_r.o)
+                0x0800100c                gmtime_r
+ .text.malloc   0x08001130       0x10 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
+                0x08001130                malloc
+ .text.memchr   0x08001140       0x1c c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr.o)
+                0x08001140                memchr
+ .text.memcmp   0x0800115c       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcmp.o)
+                0x0800115c                memcmp
+ .text.validate_structure
+                0x0800117c      0x1ac c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
+ .text.mktime   0x08001328      0x2f4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
+                0x08001328                mktime
  .text._malloc_r
-                0x08000c74       0xac c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
-                0x08000c74                _malloc_r
- .text._sbrk_r  0x08000d20       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
-                0x08000d20                _sbrk_r
+                0x0800161c       0xac c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+                0x0800161c                _malloc_r
+ .text._sbrk_r  0x080016c8       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
+                0x080016c8                _sbrk_r
+ .text.strstr   0x080016e8       0x30 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-strstr.o)
+                0x080016e8                strstr
+ .text.__tzcalc_limits
+                0x08001718      0x148 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzcalc_limits.o)
+                0x08001718                __tzcalc_limits
+ .text.__tz_lock
+                0x08001860        0x2 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzlock.o)
+                0x08001860                __tz_lock
+ .text.__tz_unlock
+                0x08001862        0x2 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzlock.o)
+                0x08001862                __tz_unlock
+ .text.div      0x08001864       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-div.o)
+                0x08001864                div
+ .text.__gettzinfo
+                0x0800188c        0x8 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gettzinfo.o)
+                0x0800188c                __gettzinfo
  *(.rodata .rodata.*)
- .rodata        0x08000d40        0x6 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+ .rodata        0x08001894        0xe C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .rodata.gSettingChange
-                0x08000d46        0xc C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .rodata.gStrobePins
-                0x08000d52        0xc C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x080018a2        0xc C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .rodata.gDataBitsReversed
-                0x08000d5e       0x10 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x080018ae       0x10 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .rodata.str1.1
-                0x08000d6e        0x2 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
+                0x080018be       0xba C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+                                 0xbd (size before relaxing)
+ .rodata.gStrobePins
+                0x08001978        0xc C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .rodata.str1.1
+                0x08001984        0x2 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
+ *fill*         0x08001986        0x2 
+ .rodata._DAYS_BEFORE_MONTH
+                0x08001988       0x30 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
+ .rodata.DAYS_IN_MONTH
+                0x080019b8       0x30 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
  .rodata.__month_lengths
-                0x08000d70       0x60 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-month_lengths.o)
-                0x08000d70                __month_lengths
+                0x080019e8       0x60 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-month_lengths.o)
+                0x080019e8                __month_lengths
  *(vtable)
  *(.eh_frame*)
  *(.glue_7)
@@ -254,110 +347,133 @@ END GROUP
  *(.glue_7t)
  .glue_7t       0x00000000        0x0 linker stubs
 
-.vfp11_veneer   0x08000dd0        0x0
+.vfp11_veneer   0x08001a48        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x08000dd0        0x0
+.v4_bx          0x08001a48        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x08000dd0        0x0
- .iplt          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
+.iplt           0x08001a48        0x0
+ .iplt          0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
 
-.rel.dyn        0x08000dd0        0x0
- .rel.iplt      0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
+.rel.dyn        0x08001a48        0x0
+ .rel.iplt      0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x08000dd0                __exidx_start = .
+                0x08001a48                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x08000dd0                __exidx_end = .
-                0x08000dd0                . = ALIGN (0x4)
-                0x08000dd0                _etext = .
-                0x08000dd0                __etext = .
-                0x08000dd0                _sidata = _etext
+                0x08001a48                __exidx_end = .
+                0x08001a48                . = ALIGN (0x4)
+                0x08001a48                _etext = .
+                0x08001a48                __etext = .
+                0x08001a48                _sidata = _etext
 
-.data           0x20000000       0x78 load address 0x08000dd0
+.data           0x20000000       0xcc load address 0x08001a48
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _sdata = .
                 0x20000000                __data_start__ = .
  *(.data_begin .data_begin.*)
  *(.data .data.*)
  .data.AHBPrescTable
-                0x20000000       0x10 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x20000000       0x10 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .data.APBAHBPrescTable
+                0x20000010       0x10 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .data.ADCPrescTable
+                0x20000020        0x4 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .data.SystemCoreClock
-                0x20000010        0x4 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x20000024        0x4 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .data.impure_data
-                0x20000014       0x60 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
+                0x20000028       0x60 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
  .data._impure_ptr
-                0x20000074        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
-                0x20000074                _impure_ptr
+                0x20000088        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
+                0x20000088                _impure_ptr
+ .data.tzinfo   0x2000008c       0x40 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gettzinfo.o)
  *(.data_end .data_end.*)
-                0x20000078                . = ALIGN (0x4)
-                0x20000078                _edata = .
-                0x20000078                __data_end__ = .
+                0x200000cc                . = ALIGN (0x4)
+                0x200000cc                _edata = .
+                0x200000cc                __data_end__ = .
 
-.igot.plt       0x20000078        0x0 load address 0x08000e48
- .igot.plt      0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
+.igot.plt       0x200000cc        0x0 load address 0x08001b14
+ .igot.plt      0x00000000        0x0 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
 
-.bss            0x20000078       0x40 load address 0x08000e48
-                0x20000078                . = ALIGN (0x4)
-                0x20000078                __bss_start__ = .
-                0x20000078                _sbss = .
+.bss            0x200000cc       0xd4 load address 0x08001b14
+                0x200000cc                . = ALIGN (0x4)
+                0x200000cc                __bss_start__ = .
+                0x200000cc                _sbss = .
  *(.bss_begin .bss_begin.*)
  *(.bss .bss.*)
- .bss.gBuzOc    0x20000078       0x10 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
  .bss.gSecondFlag
-                0x20000088        0x1 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss.gBlinkPos
-                0x20000089        0x1 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss.gDpTick   0x2000008a        0x2 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss.gBlinkTick
-                0x2000008c        0x2 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- *fill*         0x2000008e        0x2 
- .bss.current_heap_end.3856
-                0x20000090        0x4 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss.gButtonPressed
-                0x20000094        0x1 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss.gBlinkStatus
-                0x20000095        0x1 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss.gButtonDebounce
-                0x20000096        0x1 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x200000cc        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ *fill*         0x200000cd        0x1 
+ .bss.gDpTick   0x200000ce        0x2 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .bss.gButtonPending
-                0x20000097        0x1 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss.gSeconds  0x20000098        0x4 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .bss.gGridOc   0x2000009c       0x10 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x200000d0        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gSettingUtcOffset
+                0x200000d1        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gBlinkStatus
+                0x200000d2        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gUsartIdx
+                0x200000d3        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gGridOc   0x200000d4       0x10 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gBuzOc    0x200000e4       0x10 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gUsartBuf
+                0x200000f4       0x80 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gGpsNextPoll
+                0x20000174        0x4 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gBlinkPos
+                0x20000178        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ *fill*         0x20000179        0x1 
+ .bss.gBlinkTick
+                0x2000017a        0x2 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gUtcOffset
+                0x2000017c        0x4 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gGpsAvailable
+                0x20000180        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ *fill*         0x20000181        0x3 
+ .bss.gSeconds  0x20000184        0x4 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.current_heap_end.3856
+                0x20000188        0x4 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gButtonPressed
+                0x2000018c        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .bss.gButtonDebounce
+                0x2000018d        0x1 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ *fill*         0x2000018e        0x2 
  .bss.__malloc_sbrk_start
-                0x200000ac        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
-                0x200000ac                __malloc_sbrk_start
+                0x20000190        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+                0x20000190                __malloc_sbrk_start
  .bss.__malloc_free_list
-                0x200000b0        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
-                0x200000b0                __malloc_free_list
+                0x20000194        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+                0x20000194                __malloc_free_list
+ .bss._daylight
+                0x20000198        0x4 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+                0x20000198                _daylight
  *(COMMON)
- COMMON         0x200000b4        0x4 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
-                0x200000b4                errno
+ COMMON         0x2000019c        0x4 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+                0x2000019c                errno
  *(.bss_end .bss_end.*)
-                0x200000b8                . = ALIGN (0x4)
-                0x200000b8                __bss_end__ = .
-                0x200000b8                _ebss = .
+                0x200001a0                . = ALIGN (0x4)
+                0x200001a0                __bss_end__ = .
+                0x200001a0                _ebss = .
 
-.noinit         0x200000b8        0x0
-                0x200000b8                . = ALIGN (0x4)
-                0x200000b8                _noinit = .
+.noinit         0x200001a0        0x0
+                0x200001a0                . = ALIGN (0x4)
+                0x200001a0                _noinit = .
  *(.noinit .noinit.*)
-                0x200000b8                . = ALIGN (0x4)
-                0x200000b8                _end_noinit = .
-                0x200000b8                PROVIDE (end, _end_noinit)
-                0x200000b8                PROVIDE (_end, _end_noinit)
-                0x200000b8                PROVIDE (__end, _end_noinit)
-                0x200000b8                PROVIDE (__end__, _end_noinit)
+                0x200001a0                . = ALIGN (0x4)
+                0x200001a0                _end_noinit = .
+                0x200001a0                PROVIDE (end, _end_noinit)
+                0x200001a0                PROVIDE (_end, _end_noinit)
+                0x200001a0                PROVIDE (__end, _end_noinit)
+                0x200001a0                PROVIDE (__end__, _end_noinit)
 
-._check_stack   0x200000b8      0x100 load address 0x08000e88
-                0x200000b8                . = ALIGN (0x4)
-                0x200001b8                . = (. + _Minimum_Stack_Size)
- *fill*         0x200000b8      0x100 
-                0x200001b8                . = ALIGN (0x4)
+._check_stack   0x200001a0      0x100 load address 0x08001be8
+                0x200001a0                . = ALIGN (0x4)
+                0x200002a0                . = (. + _Minimum_Stack_Size)
+ *fill*         0x200001a0      0x100 
+                0x200002a0                . = ALIGN (0x4)
 
 .bss_CCMRAM
  *(.bss.CCMRAM .bss.CCMRAM.*)
@@ -407,29 +523,49 @@ END GROUP
 
 .comment        0x00000000       0x70
  *(.comment)
- .comment       0x00000000       0x70 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+ .comment       0x00000000       0x70 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
                                  0x71 (size before relaxing)
 
 .ARM.attributes
                 0x00000000       0x33
  .ARM.attributes
-                0x00000000       0x31 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x00000000       0x31 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
  .ARM.attributes
-                0x00000031       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
+                0x00000031       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
  .ARM.attributes
-                0x0000005e       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime.o)
+                0x0000005e       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
  .ARM.attributes
-                0x0000008b       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime_r.o)
+                0x0000008b       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime.o)
  .ARM.attributes
-                0x000000b8       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
+                0x000000b8       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime_r.o)
  .ARM.attributes
-                0x000000e5       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
+                0x000000e5       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-impure.o)
  .ARM.attributes
-                0x00000112       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-month_lengths.o)
+                0x00000112       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
  .ARM.attributes
-                0x0000013f       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+                0x0000013f       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr.o)
  .ARM.attributes
-                0x0000016c       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
+                0x0000016c       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcmp.o)
+ .ARM.attributes
+                0x00000199       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
+ .ARM.attributes
+                0x000001c6       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-month_lengths.o)
+ .ARM.attributes
+                0x000001f3       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+ .ARM.attributes
+                0x00000220       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
+ .ARM.attributes
+                0x0000024d       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-strstr.o)
+ .ARM.attributes
+                0x0000027a       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzcalc_limits.o)
+ .ARM.attributes
+                0x000002a7       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzlock.o)
+ .ARM.attributes
+                0x000002d4       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzvars.o)
+ .ARM.attributes
+                0x00000301       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-div.o)
+ .ARM.attributes
+                0x0000032e       0x2d c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gettzinfo.o)
 
 .debug
  *(.debug)
@@ -443,44 +579,53 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xd8
+.debug_aranges  0x00000000       0xf0
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0xd8 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+                0x00000000       0xf0 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x21ca
+.debug_info     0x00000000     0x2db8
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000     0x21ca C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+ .debug_info    0x00000000     0x2db8 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
 
-.debug_abbrev   0x00000000      0x55a
+.debug_abbrev   0x00000000      0x5b0
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x55a C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+ .debug_abbrev  0x00000000      0x5b0 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
 
-.debug_line     0x00000000      0x8a1
+.debug_line     0x00000000      0xa84
  *(.debug_line)
- .debug_line    0x00000000      0x8a1 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+ .debug_line    0x00000000      0xa84 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
 
-.debug_frame    0x00000000      0x2ec
+.debug_frame    0x00000000      0x4c0
  *(.debug_frame)
- .debug_frame   0x00000000      0x1e0 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
- .debug_frame   0x000001e0       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
- .debug_frame   0x00000200       0x34 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime.o)
- .debug_frame   0x00000234       0x30 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime_r.o)
- .debug_frame   0x00000264       0x30 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
- .debug_frame   0x00000294       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
- .debug_frame   0x000002c0       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
+ .debug_frame   0x00000000      0x218 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+ .debug_frame   0x00000218       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-abs.o)
+ .debug_frame   0x00000238       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-errno.o)
+ .debug_frame   0x00000258       0x34 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime.o)
+ .debug_frame   0x0000028c       0x30 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gmtime_r.o)
+ .debug_frame   0x000002bc       0x30 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-malloc.o)
+ .debug_frame   0x000002ec       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memchr.o)
+ .debug_frame   0x00000314       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-memcmp.o)
+ .debug_frame   0x0000033c       0x54 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-mktime.o)
+ .debug_frame   0x00000390       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-nano-mallocr.o)
+ .debug_frame   0x000003bc       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-sbrkr.o)
+ .debug_frame   0x000003e8       0x2c c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-strstr.o)
+ .debug_frame   0x00000414       0x34 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzcalc_limits.o)
+ .debug_frame   0x00000448       0x30 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-tzlock.o)
+ .debug_frame   0x00000478       0x28 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-div.o)
+ .debug_frame   0x000004a0       0x20 c:/program files (x86)/gnu tools arm embedded/4.9 2015q1/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv7-m\libg_nano.a(lib_a-gettzinfo.o)
 
-.debug_str      0x00000000     0x10ed
+.debug_str      0x00000000     0x149a
  *(.debug_str)
- .debug_str     0x00000000     0x10ed C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
-                               0x112f (size before relaxing)
+ .debug_str     0x00000000     0x149a C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
+                               0x14f4 (size before relaxing)
 
-.debug_loc      0x00000000      0xa86
+.debug_loc      0x00000000     0x1001
  *(.debug_loc)
- .debug_loc     0x00000000      0xa86 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+ .debug_loc     0x00000000     0x1001 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -498,5 +643,5 @@ END GROUP
  *(.debug_varnames)
 OUTPUT(VfdClock.elf elf32-littlearm)
 
-.debug_ranges   0x00000000      0x3b0
- .debug_ranges  0x00000000      0x3b0 C:\Users\t-bone\AppData\Local\Temp\ccvkMbTl.ltrans0.ltrans.o
+.debug_ranges   0x00000000      0x518
+ .debug_ranges  0x00000000      0x518 C:\Users\t-bone\AppData\Local\Temp\ccFX9CnT.ltrans0.ltrans.o
