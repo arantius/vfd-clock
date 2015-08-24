@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define BTN_SET_PIN GPIO_Pin_12
 #define BTN_UP_PIN GPIO_Pin_13
 #define BTN_DN_PIN GPIO_Pin_11
-typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} buttonId;
+typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} ButtonId;
 #define BTN_ALL_PINS (BTN_MAPLE_PIN|BTN_DIM_PIN|BTN_SET_PIN|BTN_UP_PIN|BTN_DN_PIN)
 
 #define DATA_PORT GPIOB
@@ -100,8 +100,8 @@ char gUsartBuf[USART_BUF_SIZE];
 volatile uint8_t gUsartIdx = 0;
 
 uint8_t gGpsAvailable = 0;
+char gGpsLine[USART_BUF_SIZE];
 time_t gGpsNextPoll = 0;
-#define GPS_TIME_POLL_FREQ 101
 uint8_t gSettingUtcOffset = 0;
 #define UTC_OFFSET_ADJUST 1800
 int32_t gUtcOffset = 0;
@@ -120,13 +120,36 @@ const uint16_t gStrobePins[6] = {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
-void usartTx(const char *cmd) {
-  uint16_t i;
-  char c;
+void gpsTxChar(char c) {
+  USART_SendData(USART1, c);
+  while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET) { }
+}
+
+void gpsTx(const char *cmd) {
+  uint8_t chk = 0;
+  uint16_t i = 0;
+  char c = 0;
+
+  gpsTxChar('$');
   for (i = 0; (c = cmd[i]); i++) {
     USART_SendData(USART1, c);
+    chk ^= c;
     while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET) { }
   }
+
+  char hexChk[3];
+  sprintf(hexChk, "%02X", chk);
+  gpsTxChar('*');
+  gpsTxChar(hexChk[0]);
+  gpsTxChar(hexChk[1]);
+  gpsTxChar('\r');
+  gpsTxChar('\n');
+}
+
+void gpsSetPushFreq(const char *cmdName, uint16_t freq) {
+  char cmd[32];
+  sprintf(cmd, "PUBX,40,%s,0,%d,0,0", cmdName, freq);
+  gpsTx(cmd);
 }
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
@@ -303,14 +326,43 @@ void initUart() {
 
   USART_Cmd(USART1, ENABLE);
 
-  // Disable data pushes from GPS.
-  usartTx("$PUBX,40,GGA,0,0,0,0*5A\r\n");
-  usartTx("$PUBX,40,GGA,0,0,0,0*5A\r\n");  // Repeat first; timing work around.
-  usartTx("$PUBX,40,GLL,0,0,0,0*5C\r\n");
-  usartTx("$PUBX,40,GSA,0,0,0,0*4E\r\n");
-  usartTx("$PUBX,40,GSV,0,0,0,0*59\r\n");
-  usartTx("$PUBX,40,RMC,0,0,0,0*47\r\n");
-  usartTx("$PUBX,40,VTG,0,0,0,0*5E\r\n");
+//  // Disable data pushes from GPS.
+//  usartTx("$PUBX,40,GGA,0,0,0,0*5A\r\n");
+//  usartTx("$PUBX,40,GGA,0,0,0,0*5A\r\n");  // Repeat first; timing work around.
+//  usartTx("$PUBX,40,GLL,0,0,0,0*5C\r\n");
+//  usartTx("$PUBX,40,GSA,0,0,0,0*4E\r\n");
+//  usartTx("$PUBX,40,GSV,0,0,0,0*59\r\n");
+//  usartTx("$PUBX,40,RMC,0,0,0,0*47\r\n");
+//  usartTx("$PUBX,40,VTG,0,0,0,0*5E\r\n");
+//  // Keep just the recommended minimum flowing, slowly.
+//  usartTx("$PUBX,40,GGA,0,15,0,0*6E\r\n");
+//  usartTx("$PUBX,40,GGA,0,15,0,0*6E\r\n");  // Repeat first; timing work around.
+//  usartTx("$PUBX,40,GLL,0,15,0,0*68\r\n");
+//  usartTx("$PUBX,40,GSA,0,15,0,0*7A\r\n");
+//  usartTx("$PUBX,40,GSV,0,15,0,0*6D\r\n");
+//  usartTx("$PUBX,40,RMC,0,15,0,0*73\r\n");
+//  usartTx("$PUBX,40,VTG,0,15,0,0*6A\r\n");
+
+  // The first character is sometimes (always?) dropped, so send a few
+  // buffer characters that can be safely discarded.
+  gpsTxChar('\r'); gpsTxChar('\n');
+  gpsTxChar('\r'); gpsTxChar('\n');
+
+  // Disable all data pushes from GPS.
+  gpsSetPushFreq("DTM", 0);
+  gpsSetPushFreq("GBS", 0);
+  gpsSetPushFreq("GGA", 0);
+  gpsSetPushFreq("GLL", 0);
+  gpsSetPushFreq("GPQ", 0);
+  gpsSetPushFreq("GRS", 0);
+  gpsSetPushFreq("GSA", 0);
+  gpsSetPushFreq("GST", 0);
+  gpsSetPushFreq("GSV", 0);
+  gpsSetPushFreq("RMC", 0);
+  gpsSetPushFreq("THS", 0);
+  gpsSetPushFreq("VTG", 0);
+  // Except the one which tells us what time it is.
+  gpsSetPushFreq("ZDA", 5);
 
   // Now that it won't be noisy, enable the RX interrupt.
   NVIC_InitTypeDef NVIC_InitStructure = {
@@ -375,12 +427,21 @@ void SysTick_Handler(void) {
 void USART1_IRQHandler(void) {
   if (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET) return;
 
-  uint16_t usartData = USART_ReceiveData(USART1);
+  // Emergency fall back, wrap around if we've gone too far.
   if (gUsartIdx >= (USART_BUF_SIZE - 2)) {
     gUsartIdx = 0;
   }
+
+  uint16_t usartData = USART_ReceiveData(USART1);
   gUsartBuf[gUsartIdx] = usartData & 0xFF;
-  gUsartIdx += 1;
+
+  if (gUsartBuf[gUsartIdx] == '\n' && gUsartBuf[gUsartIdx-1] == '\r') {
+    memcpy(gGpsLine, gUsartBuf, gUsartIdx - 1);
+    gGpsLine[gUsartIdx - 1] = 0x00;
+    gUsartIdx = 0;
+  } else {
+    gUsartIdx += 1;
+  }
 }
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
@@ -413,6 +474,7 @@ void setRtcTime(time_t current) {
   RTC_WaitForLastTask();
   PWR_BackupAccessCmd(DISABLE);
   RTC_WaitForLastTask();
+  gSecondFlag = 1;
 }
 
 
@@ -453,48 +515,82 @@ void setDisplay(uint8_t digits[]) {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
-void handleGpsLine(uint8_t theirChk) {
+void handleGpsLine() {
+  if (memcmp("$GPZDA,", gGpsLine, 7)) {
+    trace_puts("Ignoring unknown GPS line:");
+    trace_puts(gGpsLine);
+    gGpsLine[0] = 0x00;
+    return;
+  }
+
+  char *chkStart = strstr(gGpsLine, "*") + 1;
+  uint8_t theirChk = strtol(chkStart, 0, 16);
+
   uint8_t chk = 0;
   for (uint8_t i = 1; ; i++) {
-    if (gUsartBuf[i] == 0) break;
-    if (gUsartBuf[i] == '*') break;
-    chk ^= gUsartBuf[i];
+    if (gGpsLine[i] == 0x00) break;
+    if (gGpsLine[i] == '*') break;
+    chk ^= gGpsLine[i];
   }
 
   if (theirChk != chk) {
     trace_printf("Ignoring checksum mismatch: %02x / %02x\n", theirChk, chk);
+    trace_puts(gGpsLine);
+    gGpsLine[0] = 0x00;
     return;
   }
 
   gGpsAvailable = 1;
+  // Debug: Light the LED at this point to confirm GPS data receipt.
+  GPIO_WriteBit(LED_PORT, LED_PIN, SET);
 
-  if (memcmp("$PUBX,00,", gUsartBuf, 9)) {
-    trace_printf("Ignoring unknown GPS line:\n%s\n", gUsartBuf);
+  // It just so happens that for the one line (ZDA) we want to handle, just
+  // to get the time, it's always fixed length for all fields:
+  //
+  // 0         1         2         3
+  // $GPZDA,,,,,00,00*48
+  // $GPZDA,222544.00,24,08,2015,00,00*69
+  // $GPZDA,231207.00,24,08,2015,00,00*6B
+  //
+  // Namely:
+  //  - hhmmss.ss time
+  //  - dd day
+  //  - mm month
+  //  - yyyy year
+  //  - xx unsupported local hours
+  //  - xx unsupported local minutes
+  // So we can use very simple parsing techniques, just grab the characters
+  // by fixed index!  We only have to prepare by discerning the empty from
+  // the full format.
+
+  if (gGpsLine[7] == ',') {
+    trace_puts("Ignoring ZDA line with no fix.");
+    trace_puts(gGpsLine);
+    gGpsLine[0] = 0x00;
     return;
   }
 
-  // Lame cheat.  It just so happens that the fields we care about
-  // fall into a fixed position format.  Examples:
-  //
-  // 0         1         2         3         4         5         6
-  // $PUBX,00,151331.00,4045.72085,N,07359.25599,W,0.000,NF,2257,...*11
-  // $PUBX,00,151513.00,4044.60871,N,07359.69262,W,0.000,G3,21,...*60
-  //
-  // Field 8 is "navigation status", where "NF" means no fix, "DR" means
-  // dead reckoning, and anything else is a solution we're happy with.
-  // If we have anything but those two, we're happy to pull the time
-  // out of field 2, in hhmmss.sss format.
-  if (!memcmp("NF", gUsartBuf + 52, 2) || !memcmp("DR", gUsartBuf + 52, 2)) {
-    trace_printf("Ignoring GPS line without fix:\n%s\n", gUsartBuf);
-    return;
-  }
+  trace_puts("Setting time from GPS line:");
+  trace_puts(gUsartBuf);
 
-  trace_printf("Setting time from GPS line:\n%s\n", gUsartBuf);
   struct tm *t = gmtime(&gSeconds);
-  t->tm_hour = ((gUsartBuf[9] - '0') * 10) + (gUsartBuf[10] - '0');
-  t->tm_min = ((gUsartBuf[11] - '0') * 10) + (gUsartBuf[12] - '0');
-  t->tm_sec = ((gUsartBuf[12] - '0') * 10) + (gUsartBuf[13] - '0');
+  uint32_t hms = strtol(gGpsLine + 7, 0, 10);
+  trace_printf("Parsed hms: %d\n", hms);
+  t->tm_hour = (hms / 10000);
+  t->tm_min = (hms / 100) % 100;
+  t->tm_sec = hms % 100;
+  t->tm_mday = strtol(gGpsLine + 17, 0, 10);
+  t->tm_mon = strtol(gGpsLine + 20, 0, 10);
+  t->tm_year = strtol(gGpsLine + 23, 0, 10) - 1900;
+
   setRtcTime(mktime(t) + gUtcOffset);
+
+  // Now that we've received (at least) one good time value via GPS, we can
+  // back off the push frequency.
+  gpsSetPushFreq("ZDA", 3593);
+
+  // Empty the string to indicate we've processed it.
+  gGpsLine[0] = 0x00;
 }
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
@@ -507,6 +603,8 @@ int main() {
   initUart();
   SysTick_Config(72000);  // 1kHz
   trace_puts("<<< VfdClock main() init");
+
+  GPIO_WriteBit(LED_PORT, LED_PIN, RESET);
 
   // Disable buzzer.
   GPIO_WriteBit(BUZ_PORT, BUZ_PIN, RESET);
@@ -628,21 +726,8 @@ int main() {
     }
 
     // Read GPS data, if it exists.
-    char *lineEnd = strstr(gUsartBuf, CR_LF);
-    if (lineEnd) {
-      *lineEnd = 0; // CR_LF -> null terminator.
-
-      uint8_t theirChk = ( ( (*(lineEnd - 2)) - '0' ) << 4 )
-          + ( (*(lineEnd - 1)) - '0' );
-      handleGpsLine(theirChk);
-
-      // Store the next GPS line at the beginning of the buffer.
-      gUsartIdx = 0;
-    }
-    // Request new GPS data periodically.
-    if ( gGpsNextPoll < gSeconds) {
-      usartTx("$PUBX,00*33\r\n");
-      gGpsNextPoll = gSeconds + GPS_TIME_POLL_FREQ;
+    if (strlen(gGpsLine) > 0) {
+      handleGpsLine();
     }
   }
 }
