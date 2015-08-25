@@ -515,6 +515,69 @@ void setDisplay(uint8_t digits[]) {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
+void handleButtonPress() {
+  switch (gButtonPressed) {
+  case BTN_NONE:
+    break;
+  case BTN_MAPLE:
+    trace_puts("Maple button!");
+    setRtcTime(1420070400);
+    gGpsAvailable = !gGpsAvailable;
+    break;
+  case BTN_SET:
+    if (gGpsAvailable) {
+      gSettingUtcOffset = !gSettingUtcOffset;
+      trace_printf("Set button; setting utc offset=%d\n", gSettingUtcOffset);
+      gSecondFlag |= !gSettingUtcOffset;
+    } else {
+      gBlinkPos += 1;
+      if (gBlinkPos > 5) {
+        gBlinkPos = 0;
+        gSecondFlag = 1;  // Force logic loop to display digits.
+      }
+      trace_printf("Set button; new pos %d\n", gBlinkPos);
+    }
+    break;
+  case BTN_DIM:
+    gGridOc.TIM_Pulse += 10;
+    gGridOc.TIM_Pulse %= 80;
+    TIM_OC1Init(TIM2, &gGridOc);
+    trace_printf("Dim button; pulse now %d of 80.\n", gGridOc.TIM_Pulse);
+    break;
+  case BTN_UP:
+    trace_puts("Up button!");
+    if (gSettingUtcOffset) {
+      gUtcOffset += UTC_OFFSET_ADJUST;
+      if (gUtcOffset > (14 * 3600)) gUtcOffset = -12 * 3600;
+      trace_printf("utc offset now=%d\n", gUtcOffset);
+      setRtcTime(RTC_GetCounter() + UTC_OFFSET_ADJUST);
+    } else {
+      gSeconds = RTC_GetCounter() + gSettingChange[gBlinkPos];
+      setRtcTime(gSeconds);
+      gSecondFlag = 1;
+    }
+    break;
+  case BTN_DOWN:
+    trace_puts("Down button!");
+    if (gSettingUtcOffset) {
+      gUtcOffset -= UTC_OFFSET_ADJUST;
+      if (gUtcOffset < (-12 * 3600)) gUtcOffset = 14 * 3600;
+      trace_printf("utc offset now=%d\n", gUtcOffset);
+      setRtcTime(RTC_GetCounter() - UTC_OFFSET_ADJUST);
+    } else {
+      gSeconds = RTC_GetCounter() - gSettingChange[gBlinkPos];
+      setRtcTime(gSeconds);
+      gSecondFlag = 1;
+    }
+    break;
+  default:
+    // No button pressed, ignore.
+    break;
+  }
+  gButtonPressed = BTN_NONE;
+}
+
+
 void handleGpsLine() {
   if (memcmp("$GPZDA,", gGpsLine, 7)) {
     trace_puts("Ignoring unknown GPS line:");
@@ -643,65 +706,7 @@ int main() {
       digits[5] = t->tm_sec % 10;
     }
 
-    switch (gButtonPressed) {
-    case BTN_NONE:
-      break;
-    case BTN_MAPLE:
-      trace_puts("Maple button!");
-      setRtcTime(1420070400);
-      gGpsAvailable = !gGpsAvailable;
-      break;
-    case BTN_SET:
-      if (gGpsAvailable) {
-        gSettingUtcOffset = !gSettingUtcOffset;
-        trace_printf("Set button; setting utc offset=%d\n", gSettingUtcOffset);
-        gSecondFlag |= !gSettingUtcOffset;
-      } else {
-        gBlinkPos += 1;
-        if (gBlinkPos > 5) {
-          gBlinkPos = 0;
-          setDisplay(digits);
-        }
-        trace_printf("Set button; new pos %d\n", gBlinkPos);
-      }
-      break;
-    case BTN_DIM:
-      gGridOc.TIM_Pulse += 10;
-      gGridOc.TIM_Pulse %= 80;
-      TIM_OC1Init(TIM2, &gGridOc);
-      trace_printf("Dim button; pulse now %d of 80.\n", gGridOc.TIM_Pulse);
-      break;
-    case BTN_UP:
-      trace_puts("Up button!");
-      if (gSettingUtcOffset) {
-        gUtcOffset += UTC_OFFSET_ADJUST;
-        if (gUtcOffset > (14 * 3600)) gUtcOffset = -12 * 3600;
-        trace_printf("utc offset now=%d\n", gUtcOffset);
-        setRtcTime(RTC_GetCounter() + UTC_OFFSET_ADJUST);
-      } else {
-        gSeconds = RTC_GetCounter() + gSettingChange[gBlinkPos];
-        setRtcTime(gSeconds);
-        gSecondFlag = 1;
-      }
-      break;
-    case BTN_DOWN:
-      trace_puts("Down button!");
-      if (gSettingUtcOffset) {
-        gUtcOffset -= UTC_OFFSET_ADJUST;
-        if (gUtcOffset < (-12 * 3600)) gUtcOffset = 14 * 3600;
-        trace_printf("utc offset now=%d\n", gUtcOffset);
-        setRtcTime(RTC_GetCounter() - UTC_OFFSET_ADJUST);
-      } else {
-        gSeconds = RTC_GetCounter() - gSettingChange[gBlinkPos];
-        setRtcTime(gSeconds);
-        gSecondFlag = 1;
-      }
-      break;
-    default:
-      // No button pressed, ignore.
-      break;
-    }
-    gButtonPressed = BTN_NONE;
+    handleButtonPress();
 
     if (gBlinkPos > 0) {
       if (gBlinkStatus) {
