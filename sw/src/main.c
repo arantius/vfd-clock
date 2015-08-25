@@ -362,7 +362,7 @@ void initUart() {
   gpsSetPushFreq("THS", 0);
   gpsSetPushFreq("VTG", 0);
   // Except the one which tells us what time it is.
-  gpsSetPushFreq("ZDA", 5);
+  gpsSetPushFreq("ZDA", 2);
 
   // Now that it won't be noisy, enable the RX interrupt.
   NVIC_InitTypeDef NVIC_InitStructure = {
@@ -522,7 +522,6 @@ void handleButtonPress() {
     break;
   case BTN_MAPLE:
     trace_puts("Maple button!");
-    setRtcTime(1420070400);
     gGpsAvailable = !gGpsAvailable;
     break;
   case BTN_SET:
@@ -551,12 +550,11 @@ void handleButtonPress() {
       gUtcOffset += UTC_OFFSET_ADJUST;
       if (gUtcOffset > (14 * 3600)) gUtcOffset = -12 * 3600;
       trace_printf("utc offset now=%d\n", gUtcOffset);
-      setRtcTime(RTC_GetCounter() + UTC_OFFSET_ADJUST);
     } else {
       gSeconds = RTC_GetCounter() + gSettingChange[gBlinkPos];
       setRtcTime(gSeconds);
-      gSecondFlag = 1;
     }
+    gSecondFlag = 1;
     break;
   case BTN_DOWN:
     trace_puts("Down button!");
@@ -564,12 +562,11 @@ void handleButtonPress() {
       gUtcOffset -= UTC_OFFSET_ADJUST;
       if (gUtcOffset < (-12 * 3600)) gUtcOffset = 14 * 3600;
       trace_printf("utc offset now=%d\n", gUtcOffset);
-      setRtcTime(RTC_GetCounter() - UTC_OFFSET_ADJUST);
     } else {
       gSeconds = RTC_GetCounter() - gSettingChange[gBlinkPos];
       setRtcTime(gSeconds);
-      gSecondFlag = 1;
     }
+    gSecondFlag = 1;
     break;
   default:
     // No button pressed, ignore.
@@ -605,11 +602,7 @@ void handleDigits(uint8_t *digits, struct tm *t) {
     digits[4] = t->tm_sec / 10;
     digits[5] = t->tm_sec % 10;
   }
-}
 
-
-/// Possibly alter display based on current state.
-void handleDisplay(uint8_t *digits) {
   if (gBlinkPos > 0) {
     if (gBlinkStatus) {
       digits[gBlinkPos] = DIGIT_BLANK;
@@ -651,10 +644,6 @@ void handleGpsLine() {
     return;
   }
 
-  gGpsAvailable = 1;
-  // Debug: Light the LED at this point to confirm GPS data receipt.
-  GPIO_WriteBit(LED_PORT, LED_PIN, SET);
-
   // It just so happens that for the one line (ZDA) we want to handle, just
   // to get the time, it's always fixed length for all fields:
   //
@@ -682,11 +671,10 @@ void handleGpsLine() {
   }
 
   trace_puts("Setting time from GPS line:");
-  trace_puts(gUsartBuf);
+  trace_puts(gGpsLine);
 
   struct tm *t = gmtime(&gSeconds);
   uint32_t hms = strtol(gGpsLine + 7, 0, 10);
-  trace_printf("Parsed hms: %d\n", hms);
   t->tm_hour = (hms / 10000);
   t->tm_min = (hms / 100) % 100;
   t->tm_sec = hms % 100;
@@ -694,11 +682,10 @@ void handleGpsLine() {
   t->tm_mon = strtol(gGpsLine + 20, 0, 10);
   t->tm_year = strtol(gGpsLine + 23, 0, 10) - 1900;
 
-  setRtcTime(mktime(t) + gUtcOffset);
-
-  // Now that we've received (at least) one good time value via GPS, we can
-  // back off the push frequency.
-  gpsSetPushFreq("ZDA", 3593);
+  setRtcTime(mktime(t));
+  gpsSetPushFreq("ZDA", 0);
+  gGpsNextPoll = gSeconds + 3593;
+  gGpsAvailable = 1;
 
   // Empty the string to indicate we've processed it.
   gGpsLine[0] = 0x00;
@@ -724,27 +711,33 @@ int main() {
   uint8_t digits[6] = {
       DIGIT_BLANK, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_BLANK};
   setDisplay(digits);
+
   gSeconds = RTC_GetCounter();
+
+  time_t localtime;
   struct tm *t = gmtime(&gSeconds);
 
   // Logic loop.
   while (1) {
+    // Read GPS data, if it exists.
+    if (strlen(gGpsLine) > 0) {
+      handleGpsLine();
+    } else if (gGpsNextPoll < gSeconds) {
+      gpsSetPushFreq("ZDA", 2);
+    }
+
     handleDigits(digits, t);
     handleButtonPress();
-    handleDisplay(digits);
 
     if (gSecondFlag) {
       gSecondFlag = 0;
-      t = gmtime(&gSeconds);
+      localtime = gSeconds + gUtcOffset;
+      t = gmtime(&localtime);
+      handleDigits(digits, t);
       setDisplay(digits);
       // Blink decimal point.
       GPIO_WriteBit(DP_PORT, DP_PIN, SET);
       gDpTick = 500;
-    }
-
-    // Read GPS data, if it exists.
-    if (strlen(gGpsLine) > 0) {
-      handleGpsLine();
     }
   }
 }
