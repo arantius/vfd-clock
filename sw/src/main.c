@@ -608,6 +608,23 @@ void handleDigits(uint8_t *digits, struct tm *t) {
 }
 
 
+/// Possibly alter display based on current state.
+void handleDisplay(uint8_t *digits) {
+  if (gBlinkPos > 0) {
+    if (gBlinkStatus) {
+      digits[gBlinkPos] = DIGIT_BLANK;
+      // gBlinkPos of 1 means "hours"; blink both digits.
+      if (gBlinkPos == 1) {
+        digits[0] = DIGIT_BLANK;
+      }
+    }
+    setDisplay(digits);
+  } else if (gSettingUtcOffset) {
+    setDisplay(digits);
+  }
+}
+
+
 /// Handle GPS data containing well synchronized time.
 void handleGpsLine() {
   if (memcmp("$GPZDA,", gGpsLine, 7)) {
@@ -714,19 +731,7 @@ int main() {
   while (1) {
     handleDigits(digits, t);
     handleButtonPress();
-
-    if (gBlinkPos > 0) {
-      if (gBlinkStatus) {
-        digits[gBlinkPos] = DIGIT_BLANK;
-        // gBlinkPos of 1 means "hours"; blink both digits.
-        if (gBlinkPos == 1) {
-          digits[0] = DIGIT_BLANK;
-        }
-      }
-      setDisplay(digits);
-    } else if (gSettingUtcOffset) {
-      setDisplay(digits);
-    }
+    handleDisplay(digits);
 
     if (gSecondFlag) {
       gSecondFlag = 0;
