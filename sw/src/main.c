@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "diag/Trace.h"
 #include "misc.h"
 #include "stm32f10x.h"
+#include "stm32f10x_bkp.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_pwr.h"
 #include "stm32f10x_rcc.h"
@@ -79,6 +80,7 @@ typedef enum {BTN_NONE, BTN_MAPLE, BTN_UP, BTN_DOWN, BTN_DIM, BTN_SET} ButtonId;
 #define DIGIT_DASH 14
 #define DIGIT_BLANK 15
 
+#define BACKUP_MARKER 0x4ca7
 #define CR_LF "\x0D\x0A"
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
@@ -515,6 +517,32 @@ void setDisplay(uint8_t digits[]) {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
+void backupSave() {
+  PWR_BackupAccessCmd(ENABLE);
+  BKP_ClearFlag();
+
+  BKP_WriteBackupRegister(BKP_DR1, BACKUP_MARKER);
+  BKP_WriteBackupRegister(BKP_DR2, (gUtcOffset >> 16) & 0xFFFF);
+  BKP_WriteBackupRegister(BKP_DR3, gUtcOffset & 0xFFFF);
+  BKP_WriteBackupRegister(BKP_DR4, gGridOc.TIM_Pulse);
+
+  PWR_BackupAccessCmd(DISABLE);
+}
+
+
+void backupLoad() {
+  if (BACKUP_MARKER != BKP_ReadBackupRegister(BKP_DR1)) {
+    // The magic marker isn't set in register 1, ignore.
+    return;
+  }
+
+  gUtcOffset = (BKP_ReadBackupRegister(BKP_DR2) << 16)
+      + BKP_ReadBackupRegister(BKP_DR3);
+  gGridOc.TIM_Pulse = BKP_ReadBackupRegister(BKP_DR4);
+}
+
+// \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
+
 /// Given gButtonPressed, update state accordingly.
 void handleButtonPress() {
   switch (gButtonPressed) {
@@ -543,6 +571,7 @@ void handleButtonPress() {
     gGridOc.TIM_Pulse %= 80;
     TIM_OC1Init(TIM2, &gGridOc);
     trace_printf("Dim button; pulse now %d of 80.\n", gGridOc.TIM_Pulse);
+    backupSave();
     break;
   case BTN_UP:
     trace_puts("Up button!");
@@ -550,6 +579,7 @@ void handleButtonPress() {
       gUtcOffset += UTC_OFFSET_ADJUST;
       if (gUtcOffset > (14 * 3600)) gUtcOffset = -12 * 3600;
       trace_printf("utc offset now=%d\n", gUtcOffset);
+      backupSave();
     } else {
       gSeconds = RTC_GetCounter() + gSettingChange[gBlinkPos];
       setRtcTime(gSeconds);
@@ -562,6 +592,7 @@ void handleButtonPress() {
       gUtcOffset -= UTC_OFFSET_ADJUST;
       if (gUtcOffset < (-12 * 3600)) gUtcOffset = 14 * 3600;
       trace_printf("utc offset now=%d\n", gUtcOffset);
+      backupSave();
     } else {
       gSeconds = RTC_GetCounter() - gSettingChange[gBlinkPos];
       setRtcTime(gSeconds);
@@ -707,6 +738,8 @@ int main() {
   // Disable buzzer.
   GPIO_WriteBit(BUZ_PORT, BUZ_PIN, RESET);
   TIM_Cmd(TIM3, DISABLE);
+
+  backupLoad();
 
   uint8_t digits[6] = {
       DIGIT_BLANK, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_DASH, DIGIT_BLANK};
