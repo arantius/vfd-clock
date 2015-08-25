@@ -515,6 +515,7 @@ void setDisplay(uint8_t digits[]) {
 
 // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ // \\ //
 
+/// Given gButtonPressed, update state accordingly.
 void handleButtonPress() {
   switch (gButtonPressed) {
   case BTN_NONE:
@@ -578,6 +579,36 @@ void handleButtonPress() {
 }
 
 
+/// Fill the digits array based on current state.
+void handleDigits(uint8_t *digits, struct tm *t) {
+  if (gSettingUtcOffset) {
+    digits[0] = 0;
+    if (gBlinkStatus) {
+      memchr(digits + 1, DIGIT_BLANK, 5);
+    } else {
+      digits[1] = gUtcOffset < 0 ? DIGIT_DASH : DIGIT_BLANK;
+      uint16_t dispHrs = abs(gUtcOffset / 3600);
+      uint16_t dispMins = abs(gUtcOffset / 60) % 60;
+      digits[2] = (dispHrs / 10) % 10;
+      digits[3] = (dispHrs / 1) % 10;
+      digits[4] = (dispMins / 10) % 10;
+      digits[5] = (dispMins / 1) % 10;
+    }
+  } else {
+    // TODO: Configurable 12/24 hour.
+    uint8_t h = t->tm_hour;
+    h %= 12; if (h == 0) h = 12;  // Cast 24->12 hour.
+    digits[0] = h / 10;
+    digits[1] = h % 10;
+    digits[2] = t->tm_min / 10;
+    digits[3] = t->tm_min % 10;
+    digits[4] = t->tm_sec / 10;
+    digits[5] = t->tm_sec % 10;
+  }
+}
+
+
+/// Handle GPS data containing well synchronized time.
 void handleGpsLine() {
   if (memcmp("$GPZDA,", gGpsLine, 7)) {
     trace_puts("Ignoring unknown GPS line:");
@@ -681,31 +712,7 @@ int main() {
 
   // Logic loop.
   while (1) {
-    if (gSettingUtcOffset) {
-      digits[0] = 0;
-      if (gBlinkStatus) {
-        memchr(digits + 1, DIGIT_BLANK, 5);
-      } else {
-        digits[1] = gUtcOffset < 0 ? DIGIT_DASH : DIGIT_BLANK;
-        uint16_t dispHrs = abs(gUtcOffset / 3600);
-        uint16_t dispMins = abs(gUtcOffset / 60) % 60;
-        digits[2] = (dispHrs / 10) % 10;
-        digits[3] = (dispHrs / 1) % 10;
-        digits[4] = (dispMins / 10) % 10;
-        digits[5] = (dispMins / 1) % 10;
-      }
-    } else {
-      // TODO: Configurable 12/24 hour.
-      uint8_t h = t->tm_hour;
-      h %= 12; if (h == 0) h = 12;  // Cast 24->12 hour.
-      digits[0] = h / 10;
-      digits[1] = h % 10;
-      digits[2] = t->tm_min / 10;
-      digits[3] = t->tm_min % 10;
-      digits[4] = t->tm_sec / 10;
-      digits[5] = t->tm_sec % 10;
-    }
-
+    handleDigits(digits, t);
     handleButtonPress();
 
     if (gBlinkPos > 0) {
