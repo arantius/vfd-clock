@@ -18,7 +18,7 @@ If you are interested in building this clock yourself, check out the Bill of Mat
 | DC Jack | CON2 | - | EJ508A |
 | Diode | D1 | - | STPS130A |
 | Inductor | L1 | 68μH | RCH8011NP-680L |
-| Transistor | Q1, Q2 | - | 2N7002-7-F |
+| Transistor | Q1, Q2 | - | MMBT4403LT1G |
 | Resistor | R1 | 0.22Ω | LR1LJR22 |
 | Chip Resistor (0603) | R2 | 12.4kΩ | - |
 | Chip Resistor (0603) | R3 | 54.9kΩ | - |
