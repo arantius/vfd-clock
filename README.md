@@ -16,6 +16,7 @@ If you are interested in building this clock yourself, check out the Bill of Mat
 | Electrolytic Capacitor | C3, C4, C5, C6 | 47μF | 25YXF47MEFC5X11 |
 | Chip Capacitor (0603) | C7 | 330pF | n/a |
 | DC Jack | CON2 | - | EJ508A |
+| DC Plug | - | - | PP3-002A |
 | Diode | D1 | - | STPS130A |
 | Inductor | L1 | 68μH | RCH8011NP-680L |
 | Transistor | Q1, Q2 | - | MMBT4403LT1G |
@@ -38,3 +39,4 @@ Notes:
  * The official [Baite store on Aliexpress ](https://www.aliexpress.com/store/product/x/213957_1400682373.html) is a reliable source of cheap clone Maple Mini boards.
  * You'll also need 72 single-pin sockets for the tubes, these are most commonly/affordably available on eBay.  Look for "nixie pin socket".  (They're $0.20 each from DigiKey, but as low as $0.05 each in quantity from eBay.)  These sockets raise the tube off the board so that the vaccum seal "nipple" has some room.  Plus the ability to remove and replace tubes is nice!
  * The optional GPS module, if used, should have an 0.1" four pin header of: Vcc, RX, TX, GND in that order.  I used a "Ublox NEO-6M" module.
+ * The battery (and its) holder is optional.  If you don't mind losing the time when you unplug you don't need it.
