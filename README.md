@@ -21,9 +21,9 @@ If you are interested in building this clock yourself, check out the Bill of Mat
 | Transistor | Q1, Q2 | - | MMBT4403LT1G |
 | Resistor | R1 | 0.22Ω | LR1LJR22 |
 | Chip Resistor (0603) | R2 | 12.4kΩ | - |
-| Chip Resistor (0603) | R3 | 54.9kΩ | - |
+| Chip Resistor (0603) | R3 | 41.2kΩ | - |
 | Chip Resistor (0603) | R4, R5 | 1kΩ | - |
-| Variable Resistor | RV1 | 4.7kΩ | PVA2A472A01R00 [#1](https://github.com/arantius/vfd-clock/issues/1) |
+| Variable Resistor | RV1 | 22kΩ | PVA2A223A01R00 [#1](https://github.com/arantius/vfd-clock/issues/1) |
 | Piezo Speaker | SP1 | - | AT-1224-TWT-5V-2-R [#2](https://github.com/arantius/vfd-clock/issues/2) |
 | Tactile Switch | SW1, SW2, SW3, SW4 | - | FSM6JSMA |
 | Microcontroller | U1 | Maple Mini | - |
